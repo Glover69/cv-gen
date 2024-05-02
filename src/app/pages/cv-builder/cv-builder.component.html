@@ -1,0 +1,76 @@
+<section class="main-container w-full h-full">
+    <app-navbar></app-navbar>
+
+    <div class="inner-container w-full flex flex-col items-center justify-center py-24 lg:px-12">
+        <div class="header flex flex-col items-center justify-center gap-2">
+            <span class="text-4xl text-main-txt-color Raleway-Bold">Choose a Template</span>
+            <span class="text-sub-txt-color Inter-Regular text-sm">Over a dozen professional templates for you to choose
+                from</span>
+        </div>
+
+
+        <div class="color-group flex flex-col items-center w-3/4 pt-20 gap-6">
+
+            <div class="header-color-group flex flex-col items-center justify-center">
+                <span class="text-xl text-main-txt-color Raleway-SemiBold">Try other colors</span>
+                <span class="text-sub-txt-color Inter-Regular text-sm">A variety of colors to add a bit of style to your
+                    template</span>
+            </div>
+
+            <div class="inner-color-group flex align-center flex-wrap justify-center gap-3">
+                @for (item of colorGroup; track $index) {
+                <div (click)="selectColor(item.colorHex)"
+                    class="single-color-container cursor-pointer hover:scale-105 hover:transition-all flex flex-col border border-[#00000010] w-32 h-32  rounded-md">
+                    <div [style.backgroundColor]="item.colorHex" class="top h-2/4 w-full rounded-t-md">
+
+                    </div>
+                    <div class="bottom p-2 w-full h-2/4 flex flex-col items-start justify-center">
+                        <span class="Inter-Medium text-[#101828] text-sm">{{item.colorName}}</span>
+                        <span class="Inter-Regular text-sub-txt-color text-xs">{{item.colorHex}}</span>
+                    </div>
+
+                </div>
+                }
+
+
+            </div>
+        </div>
+
+
+        <!-- <button (click)="printCV()" class="">Print</button> -->
+    </div>
+
+
+    <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16">
+        <app-template-one-preview
+            class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
+            [backgroundColor]="selectedBackgroundColor" [mainTextColor]="selectedHeaderColor">
+
+            @if (showButton) {
+            <button
+                class="select-button hidden absolute top-0 right-0 z-10 p-2 bg-gray-800 text-white rounded">Select</button>
+            }
+
+        </app-template-one-preview>
+        <app-template-two-preview
+            class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
+            [backgroundColor]="selectedBackgroundColor"
+            [mainTextColor]="selectedHeaderColor"></app-template-two-preview>
+        <app-template-three-preview
+            class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
+            [backgroundColor]="selectedBackgroundColor"
+            [mainTextColor]="selectedHeaderColor"></app-template-three-preview>
+
+    </div>
+
+    <!-- <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16">
+        @for (template of templates; track $index) {
+        <div class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
+            *ngComponentOutlet="template.component; injector: createInjector(template);"></div>
+        }
+    </div> -->
+
+
+
+
+</section>

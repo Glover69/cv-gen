@@ -1,1 +1,493 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  max-width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+
+@font-face {
+    font-family: 'SF-Regular';
+    src: url('/assets/fonts/SF/SFPRODISPLAYREGULAR.OTF');
+}
+
+@font-face {
+    font-family: 'SF-Medium';
+    src: url('/assets/fonts/SF/SFPRODISPLAYMEDIUM.OTF');
+}
+
+@font-face {
+    font-family: 'SF-Bold';
+    src: url('/assets/fonts/SF/SFPRODISPLAYBOLD.OTF');
+}
+
+
+// Neue Montreal
+
+@font-face {
+    font-family: 'Neue-Light';
+    src: url('/assets/fonts/NeueMontreal/NeueMontreal-Light.otf');
+}
+
+@font-face {
+    font-family: 'Neue-Regular';
+    src: url('/assets/fonts/NeueMontreal/NeueMontreal-Regular.otf');
+}
+
+@font-face {
+    font-family: 'Neue-Medium';
+    src: url('/assets/fonts/NeueMontreal/NeueMontreal-Medium.otf');
+}
+
+@font-face {
+    font-family: 'Neue-Bold';
+    src: url('/assets/fonts/NeueMontreal/NeueMontreal-Bold.otf');
+}
+
+
+// Raleway
+
+@font-face {
+    font-family: 'Raleway-Thin';
+    src: url('/assets/fonts/Raleway/Raleway-Thin.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway-Light';
+    src: url('/assets/fonts/Raleway/Raleway-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway-Regular';
+    src: url('/assets/fonts/Raleway/Raleway-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway-Medium';
+    src: url('/assets/fonts/Raleway/Raleway-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway-SemiBold';
+    src: url('/assets/fonts/Raleway/Raleway-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway-Bold';
+    src: url('/assets/fonts/Raleway/Raleway-Bold.ttf');
+}
+
+
+
+// Inter
+@font-face {
+    font-family: 'Inter-Light';
+    src: url('/assets/fonts/Inter/Inter-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Inter-Regular';
+    src: url('/assets/fonts/Inter/Inter-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Inter-Medium';
+    src: url('/assets/fonts/Inter/Inter-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Inter-SemiBold';
+    src: url('/assets/fonts/Inter/Inter-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'Inter-Bold';
+    src: url('/assets/fonts/Inter/Inter-Bold.ttf');
+}
+
+
+
+
+// Space Grotesk
+@font-face {
+    font-family: 'SG-Light';
+    src: url('/assets/fonts/SpaceGrotesk/SpaceGrotesk-Light.ttf');
+}
+
+@font-face {
+    font-family: 'SG-Regular';
+    src: url('/assets/fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'SG-Medium';
+    src: url('/assets/fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'SG-SemiBold';
+    src: url('/assets/fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'SG-Bold';
+    src: url('/assets/fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf');
+}
+
+
+
+
+// Poppins
+@font-face {
+    font-family: 'Poppins-Light';
+    src: url('/assets/fonts/Poppins/Poppins-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('/assets/fonts/Poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('/assets/fonts/Poppins/Poppins-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('/assets/fonts/Poppins/Poppins-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('/assets/fonts/Poppins/Poppins-Bold.ttf');
+}
+
+
+
+
+
+// Roboto
+@font-face {
+    font-family: 'Roboto-Light';
+    src: url('/assets/fonts/Roboto/Roboto-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('/assets/fonts/Roboto/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('/assets/fonts/Roboto/Roboto-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('/assets/fonts/Roboto/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Black';
+    src: url('/assets/fonts/Roboto/Roboto-Black.ttf');
+}
+
+
+
+
+// Roboto Condensed
+@font-face {
+    font-family: 'RC-Light';
+    src: url('/assets/fonts/RobotoCondensed/RobotoCondensed-Light.ttf');
+}
+
+@font-face {
+    font-family: 'RC-Regular';
+    src: url('/assets/fonts/RobotoCondensed/RobotoCondensed-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'RC-Medium';
+    src: url('/assets/fonts/RobotoCondensed/RobotoCondensed-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'RC-SemiBold';
+    src: url('/assets/fonts/RobotoCondensed/RobotoCondensed-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'RC-Bold';
+    src: url('/assets/fonts/RobotoCondensed/RobotoCondensed-Bold.ttf');
+}
+
+
+
+
+// Roboto Mono
+@font-face {
+    font-family: 'RM-Light';
+    src: url('/assets/fonts/RobotoMono/RobotoMono-Light.ttf');
+}
+
+@font-face {
+    font-family: 'RM-Regular';
+    src: url('/assets/fonts/RobotoMono/RobotoMono-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'RM-Medium';
+    src: url('/assets/fonts/RobotoMono/RobotoMono-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'RM-SemiBold';
+    src: url('/assets/fonts/RobotoMono/RobotoMono-SemiBold.ttf');
+}
+
+@font-face {
+    font-family: 'RM-Bold';
+    src: url('/assets/fonts/RobotoMono/RobotoMono-Bold.ttf');
+}
+
+
+
+.SF-Regular{
+    font-family: 'SF-Regular';
+}
+
+.SF-Medium{
+    font-family: 'SF-Medium';
+}
+
+.SF-Bold{
+    font-family: 'SF-Bold';
+}
+
+
+
+
+.Neue-Light{
+    font-family: 'Neue-Light';
+}
+
+.Neue-Regular{
+    font-family: 'Neue-Regular';
+}
+
+.Neue-Medium{
+    font-family: 'Neue-Medium';
+}
+
+.Neue-Bold{
+    font-family: 'Neue-Bold';
+}
+
+
+
+.Raleway-Thin{
+    font-family: 'Raleway-Thin';
+}
+
+.Raleway-Light{
+    font-family: 'Raleway-Light';
+}
+
+.Raleway-Regular{
+    font-family: 'Raleway-Regular';
+}
+
+.Raleway-Medium{
+    font-family: 'Raleway-Medium';
+}
+
+.Raleway-SemiBold{
+    font-family: 'Raleway-Bold';
+}
+
+.Raleway-Bold{
+    font-family: 'Raleway-Bold';
+}
+
+
+
+
+
+
+.Inter-Light{
+    font-family: 'Inter-Light';
+}
+
+.Inter-Regular{
+    font-family: 'Inter-Regular';
+}
+
+.Inter-Medium{
+    font-family: 'Inter-Medium';
+}
+
+.Inter-SemiBold{
+    font-family: 'Inter-SemiBold';
+}
+
+.Inter-Bold{
+    font-family: 'Inter-Bold';
+}
+
+
+
+
+
+
+.SG-Light{
+    font-family: 'SG-Light';
+}
+
+.SG-Regular{
+    font-family: 'SG-Regular';
+}
+
+.SG-Medium{
+    font-family: 'SG-Medium';
+}
+
+.SG-SemiBold{
+    font-family: 'SG-SemiBold';
+}
+
+.SG-Bold{
+    font-family: 'SG-Bold';
+}
+
+
+
+
+
+
+
+.Poppins-Light{
+    font-family: 'Poppins-Light';
+}
+
+.Poppins-Regular{
+    font-family: 'Poppins-Regular';
+}
+
+.Poppins-Medium{
+    font-family: 'Poppins-Medium';
+}
+
+.Poppins-SemiBold{
+    font-family: 'Poppins-SemiBold';
+}
+
+.Poppins-Bold{
+    font-family: 'Poppins-Bold';
+}
+
+
+
+
+.Roboto-Light{
+    font-family: 'Roboto-Light';
+}
+
+.Roboto-Regular{
+    font-family: 'Roboto-Regular';
+}
+
+.Roboto-Medium{
+    font-family: 'Roboto-Medium';
+}
+
+.Roboto-Bold{
+    font-family: 'Roboto-Bold';
+}
+
+.Roboto-Black{
+    font-family: 'Roboto-Black';
+}
+
+
+
+
+.RC-Light{
+    font-family: 'RC-Light';
+}
+
+.RC-Regular{
+    font-family: 'RC-Regular';
+}
+
+.RC-Medium{
+    font-family: 'RC-Medium';
+}
+
+.RC-SemiBold{
+    font-family: 'RC-SemiBold';
+}
+
+.RC-Bold{
+    font-family: 'RC-Bold';
+}
+
+
+
+
+
+
+.RM-Light{
+    font-family: 'RM-Light';
+}
+
+.RM-Regular{
+    font-family: 'RM-Regular';
+}
+
+.RM-Medium{
+    font-family: 'RM-Medium';
+}
+
+.RM-SemiBold{
+    font-family: 'RM-SemiBold';
+}
+
+.RM-Bold{
+    font-family: 'RM-Bold';
+}
+
+
+/* print section */
+@media print{
+    body *{
+        visibility: hidden;
+    }
+
+    .non_print_area{
+        display: none;
+    }
+
+    .print_area, .print_area *{
+        visibility: visible;
+    }
+
+    .print_area{
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+        background: auto;
+    }
+}
