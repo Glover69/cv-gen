@@ -1,7 +1,7 @@
 <section class="main-container w-full h-full">
     <app-navbar></app-navbar>
 
-    <div class="inner-container w-full flex flex-col items-center justify-center py-24 lg:px-12">
+    <div class="inner-container w-full flex flex-col items-center justify-center py-20 lg:px-12">
         <div class="header flex flex-col items-center justify-center gap-2">
             <span class="text-4xl text-main-txt-color Raleway-Bold">Choose a Template</span>
             <span class="text-sub-txt-color Inter-Regular text-sm">Over a dozen professional templates for you to choose
@@ -9,7 +9,7 @@
         </div>
 
 
-        <div class="color-group flex flex-col items-center w-3/4 pt-20 gap-6">
+        <div class="color-group flex flex-col items-center w-3/4 3xl:w-[65%] pt-20 gap-6">
 
             <div class="header-color-group flex flex-col items-center justify-center">
                 <span class="text-xl text-main-txt-color Raleway-SemiBold">Try other colors</span>
@@ -41,7 +41,7 @@
     </div>
 
 
-    <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16">
+    <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16 2xl:px-20 3xl:px-24">
         <app-template-one-preview
             class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
             [backgroundColor]="selectedBackgroundColor" [mainTextColor]="selectedHeaderColor">

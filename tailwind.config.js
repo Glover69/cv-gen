@@ -11,6 +11,29 @@ module.exports = {
       'black': '#000',
       'border-color': '#DEDEDE',
     },
+
+
+    screens: {
+
+      'sm': '340px',
+      // => @media (min-width: 340px) { ... }
+
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      '2lg': '1190px',
+            // => @media (min-width: 1190px) { ... }
+      
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1440px',
+      // => @media (min-width: 1440px) { ... }
+
+      '3xl': '1650px',
+      // => @media (min-width: 1650px) { ... }
+    },
     extend: {},
   },
   plugins: [],

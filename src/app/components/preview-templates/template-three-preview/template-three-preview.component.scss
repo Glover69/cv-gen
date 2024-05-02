@@ -1,0 +1,7 @@
+li::before {
+    content: "\2022"; /* Unicode character for bullet point */
+    color: #333; /* Color of the bullet point */
+    font-size: 14px; /* Size of the bullet point */
+    position: absolute; /* Positioning the bullet point */
+    left: -2.5px; /* Adjusting the position to align it outside of the text space */
+  }
