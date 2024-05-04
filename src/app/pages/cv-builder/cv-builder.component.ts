@@ -5,6 +5,7 @@ import { TemplateOnePreviewComponent } from '../../components/preview-templates/
 import { TemplateTwoPreviewComponent } from '../../components/preview-templates/template-two-preview/template-two-preview.component';
 import { TemplateThreePreviewComponent } from '../../components/preview-templates/template-three-preview/template-three-preview.component';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 type ColorGroup = {
   colorName: string;
@@ -21,7 +22,7 @@ type ColorGroup = {
 })
 export class CvBuilderComponent {
 
-  constructor(public injector: Injector, private resolver: ComponentFactoryResolver) { }
+  constructor(public injector: Injector, private resolver: ComponentFactoryResolver, private router: Router) { }
 
 
   ngOnInit(){
@@ -91,6 +92,23 @@ export class CvBuilderComponent {
     localStorage.setItem('selectedBackgroundColor', this.selectedBackgroundColor);
     localStorage.setItem('selectedHeaderColor', this.selectedHeaderColor);
   }
+
+  selectedComponent: string | null = null;
+
+  selectComponent(componentId: string): void {
+    this.selectedComponent = componentId;
+  }
+
+  navigateToSelectedComponent(): void {
+    if (this.selectedComponent) {
+      this.router.navigate(['/selected-component', this.selectedComponent]);
+    }
+  }
+
+  // selectComponent(componentId: string): void {
+  //   this.componentSelected.emit(componentId);
+  // }
+  
 
   printCV(){
     window.print();

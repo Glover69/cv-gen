@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service';
+import { Resume } from '../../../models/data.models';
 // import jspdf from 'jspdf';
 // import html2canvas from 'html2canvas';
 // import print from 'print-js'
@@ -18,7 +19,12 @@ export class TemplateOneComponent {
 
   @Input() backgroundColor!: string;
   @Input() mainTextColor!: string;
+  @Input() formData!: Resume;
+  @Input() selectedImageUrl!: string | null;
 
+  ngOnInit() {
+    // console.log(this.formData.profileImage);
+  }
   exportToPdf(): void {
     const htmlContent = document.getElementById('cvContent')?.innerHTML;
     this.dataService.generatePdf(htmlContent)

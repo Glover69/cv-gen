@@ -1,5 +1,5 @@
-<section class="main-container w-full h-full">
-    <app-navbar></app-navbar>
+<section class="main-container w-full h-full overflow-y-auto">
+    <!-- <app-navbar></app-navbar> -->
 
     <div class="inner-container w-full flex flex-col items-center justify-center py-20 lg:px-12">
         <div class="header flex flex-col items-center justify-center gap-2">
@@ -41,26 +41,21 @@
     </div>
 
 
-    <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16 2xl:px-20 3xl:px-24">
+    <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16 2xl:px-20 3xl:px-24 h-full">
         <app-template-one-preview
             class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
-            [backgroundColor]="selectedBackgroundColor" [mainTextColor]="selectedHeaderColor">
-
-            @if (showButton) {
-            <button
-                class="select-button hidden absolute top-0 right-0 z-10 p-2 bg-gray-800 text-white rounded">Select</button>
-            }
-
+            [backgroundColor]="selectedBackgroundColor" [mainTextColor]="selectedHeaderColor" (click)="selectComponent('template-one-preview')">
         </app-template-one-preview>
+
         <app-template-two-preview
             class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
             [backgroundColor]="selectedBackgroundColor"
             [mainTextColor]="selectedHeaderColor"></app-template-two-preview>
+
         <app-template-three-preview
             class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
             [backgroundColor]="selectedBackgroundColor"
             [mainTextColor]="selectedHeaderColor"></app-template-three-preview>
-
     </div>
 
     <!-- <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16">

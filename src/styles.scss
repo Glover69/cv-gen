@@ -16,6 +16,11 @@ body {
 }
 
 
+app-cv-editor, app-cv-builder{
+    height: -webkit-fill-available;
+}
+
+
 @font-face {
     font-family: 'SF-Regular';
     src: url('/assets/fonts/SF/SFPRODISPLAYREGULAR.OTF');

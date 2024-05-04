@@ -1,0 +1,30 @@
+// .template{
+//     box-shadow: 0px 6.4px 8.54px -2.13px rgba(16,24,40,0.08), 0px 2.13px 3.2px -1.07px rgba(16,24,40,0.03);
+// }
+
+.nav-option.inactive {
+  img {
+    filter: invert(20%) sepia(7%) saturate(325%) hue-rotate(177deg)
+      brightness(89%) contrast(87%);
+  }
+
+  span {
+    color: #a9afb8;
+  }
+}
+
+.nav-option.active {
+  img {
+    filter: invert(66%) sepia(85%) saturate(1393%) hue-rotate(189deg)
+      brightness(97%) contrast(70%);
+  }
+
+  span {
+    color: #1172cc;
+  }
+}
+
+.toggle-dot {
+    top: -1px;
+    transition: all 0.3s ease;
+  }

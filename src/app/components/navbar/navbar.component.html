@@ -1,4 +1,4 @@
-<div class="main-container-navbar w-full flex items-center justify-between py-7 px-12 border-b border-border-color">
+<div class="main-container-navbar w-full bg-[#fff] flex items-center justify-between py-4 px-6 border-b border-border-color">
 
     <div class="left flex items-center gap-4">
         <img class="w-14" src="/assets/images/logo.png" alt="">
@@ -6,6 +6,13 @@
     </div>
 
     <div class="right">
+
+        @if(showButton){
+            <button class="bg-blue rounded-lg px-6 py-4 flex items-center gap-3">
+                <img src="/assets/icons/document-download.svg" alt="">
+                <span class="Raleway-SemiBold text-[#fff]">Download</span>
+            </button>
+        }
 
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { DataService } from '../../../../services/data.service';
 
 @Component({
@@ -14,6 +14,12 @@ export class TemplateTwoPreviewComponent {
 
   @Input() backgroundColor!: string;
   @Input() mainTextColor!: string;
+  @Output() componentSelected = new EventEmitter<string>();
+
+  selectComponent(componentId: string): void {
+    this.componentSelected.emit(componentId);
+  }
+  
 
 
   @ViewChild('content') content!: ElementRef;
