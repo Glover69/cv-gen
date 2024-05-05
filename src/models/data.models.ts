@@ -4,6 +4,8 @@ export interface Resume {
     jobTitle: string;
     profileImage?: string;
     website?: string;
+    linkedIn?: string;
+    github?: string;
     email?: string;
     phone?: string;
     profile: string;

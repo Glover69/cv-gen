@@ -1,167 +1,88 @@
 <section class="main w-full h-screen relative grid grid-rows-10 overflow-hidden">
 
-<div class="main-container-navbar w-full bg-[#fff] row-span-1 flex items-center justify-between py-4 px-6 border-b border-border-color">
+    <div
+        class="main-container-navbar w-full bg-[#fff] row-span-1 flex items-center justify-between py-4 px-6 border-b border-border-color">
 
-    <div class="left flex items-center gap-4">
-        <img class="w-14" src="/assets/images/logo.png" alt="">
-        <span class="Raleway-Bold text-xl text-black">CVGen</span>
-    </div>
+        <div class="left flex items-center gap-4">
+            <img class="w-14" src="/assets/images/logo.png" alt="">
+            <span class="Raleway-Bold text-xl text-black">CVGen</span>
+        </div>
 
-    <div class="right">
+        <div class="right">
 
             <button (click)="printCV()" class="bg-blue rounded-lg px-6 py-4 flex items-center gap-3">
                 <img src="/assets/icons/document-download.svg" alt="">
                 <span class="Raleway-SemiBold text-[#fff]">Download</span>
             </button>
 
+        </div>
     </div>
-</div>
 
-<div class="main-container grid grid-cols-2 w-full row-span-9 h-[-webkit-fill-available]">
-    <div class="left border-r grid grid-cols-6 border-[#DEDEDE] overflow-y-auto w-full h-[100%]">
+    <div class="main-container grid grid-cols-2 w-full row-span-9 h-[-webkit-fill-available]">
+        <div class="left border-r grid grid-cols-6 border-[#DEDEDE] overflow-y-auto w-full h-[100%]">
 
-        <div class="left-nav sticky col-span-2 top-0 z-[9999] overflow-hidden h-full border-r border-[#DEDEDE] p-2 xl:px-4 flex flex-col items-start justify-between">
-            <div class="top flex flex-col items-start">
-                @for (item of steps; track $index) {
-                    <div (click)="goToStep($index)" [ngClass]="{ 'step': true, 'active': currentStepIndex === $index, 'inactive': currentStepIndex !== $index }" class="nav-option flex items-center cursor-pointer gap-2 p-3">
+            <div
+                class="left-nav sticky col-span-2 top-0 overflow-hidden h-full border-r border-[#DEDEDE] p-2 xl:px-4 flex flex-col items-start justify-between">
+                <div class="top flex flex-col items-start">
+                    @for (item of steps; track $index) {
+                    <div (click)="goToStep($index)"
+                        [ngClass]="{ 'step': true, 'active': currentStepIndex === $index, 'inactive': currentStepIndex !== $index }"
+                        class="nav-option flex items-center cursor-pointer gap-2 p-3">
                         <img src="{{item.icon}}" alt="">
                         <span class="Raleway-Medium text-[#A9AFB8] text-sm xl:text-base">{{item.name}}</span>
                     </div>
-                }
+                    }
+                </div>
+
+                <div class="bottom flex flex-col items-start">
+                    <div (click)="openTemplateDialog()" class="nav-option flex items-center cursor-pointer gap-2 p-3">
+                        <img src="/assets/icons/document-text.svg" alt="">
+                        <span class="Raleway-Medium text-[#A9AFB8] text-sm xl:text-base">Templates</span>
+                    </div>
+
+                    <div class="nav-option flex items-center gap-2 p-3">
+                        <img src="/assets/icons/messages-3.svg" alt="">
+                        <span class="Raleway-Medium text-[#A9AFB8] text-sm xl:text-base">Feedback</span>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="bottom flex flex-col items-start">
-                <div class="nav-option flex items-center gap-2 p-3">
-                    <img src="/assets/icons/document-text.svg" alt="">
-                    <span class="Raleway-Medium text-[#A9AFB8] text-sm xl:text-base">Templates</span>
-                </div>
+            <div class="left-content w-full h-full col-span-4 overflow-y-auto">
+                @if (currentStepIndex === 0) {
+                <app-personal-info-form (imageSelected)="onImageSelected($event)" (formDataChange)="handleFormDataChange($event)"></app-personal-info-form>
+                }
 
-                <div class="nav-option flex items-center gap-2 p-3">
-                    <img src="/assets/icons/messages-3.svg" alt="">
-                    <span class="Raleway-Medium text-[#A9AFB8] text-sm xl:text-base">Feedback</span>
+                @if (currentStepIndex === 1) {
+                <div class="conent-area w-full h-full p-4">
+
                 </div>
+                }
             </div>
 
         </div>
 
-        <form [formGroup]="resumeForm" class="left-content w-full h-full col-span-4 overflow-y-auto">
-            @if (currentStepIndex === 0) {
-                <div class="content-area w-full h-full flex flex-col gap-6 items-start p-6">
-                    <div class="header flex flex-col items-start gap-1">
-                        <span class="Raleway-Medium lg:text-lg xl:text-xl text-main-txt-color">Personal Information</span>
-                        <span class="Inter-Regular text-xs xl:text-sm text-sub-txt-color">First things first. Let’s start by filling in basic information like our name, phone number and email</span>
-                    </div>
+        <div class="right w-full grid overflow-y-auto py-12 lg:px-10 xl:px-20 2xl:px-28 h-[100%]">
 
-                    <div class="w-full flex flex-col gap-6 pb-6">
-                        <div class="file-upload-group flex flex-col lg:flex-row items-start w-full gap-4">
-                            <div [style.backgroundImage]="selectedFileUrl ? 'url(' + selectedFileUrl + ')' : 'url(' + customerProfilePhoto + ')'" id="profile-btn-change"
-                                class="bg-cover bg-center bg-no-repeat w-16 flex-shrink-0 h-16 rounded-full border border-[#EAECF0]">
-                            </div>
-        
-                            <input formControlName="profileImage" (change)="onFileSelected($event)" class="hidden" type="file" id="input-file" />
-                            <label for="input-file" class="file-upload w-[-webkit-fill-available] cursor-pointer py-4 px-6 rounded-xl border border-[#EAECF0] flex flex-col bg-white items-center gap-3">
-                                <div class="icon w-16 h-16 flex items-center justify-center rounded-full bg-[#F2F4F7] border-[6px] border-[#F9FAFB]">
-                                    <img class="w-8" src="/assets/icons/upload-cloud.svg" alt="">
-                                </div>
-        
-                                <div class="flex flex-col items-center justify-center w-full">
-                                    <span class="SF-Regular text-lg text-center">Drop your images here or <span
-                                        class="blue-text text-[#1172CC]">browse</span></span>
-                                    <span class="SF-Regular text-[#9CA3AF] text-center">Maximum size: 50MB</span>
-                                  </div>
-                            </label>
-                        </div>
+            <app-template-one class="template rounded-lg w-full h-fit border border-[#DEDEDE]"
+                [formData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one>
 
-
-                        <!-- Personal info inputs -->
-                        <div class="flex flex-col items-start w-full gap-6">
-                             <!-- First Name and last name inputs -->
-                             <div class="name-input-group flex flex-row items-center gap-5">
-                                <div class="input-group flex flex-col items-start gap-1 w-full">
-                                    <span class="text-[#344054] Raleway-Regular text-sm xl:text-base">First Name</span>
-                                    <input
-                                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular placeholder:2xl:text-lg"
-                                        placeholder="John" type="text" formControlName="firstname">
-                                </div>
-
-                                <div class="input-group flex flex-col items-start gap-1 w-full">
-                                    <span class="text-[#344054] Raleway-Regular text-sm xl:text-base">Last Name</span>
-                                    <input
-                                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular placeholder:2xl:text-lg"
-                                        placeholder="Appleseed" type="text" formControlName="lastname">
-                                </div>
-                             </div>
-
-
-                             <!--Job title-->
-                             <div class="input-group flex flex-col items-start gap-1 w-full">
-                                <span class="text-[#344054] Raleway-Regular text-sm xl:text-base">Job Title</span>
-                                <input
-                                    class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular placeholder:2xl:text-lg"
-                                    placeholder="Frontend Developer" type="text" formControlName="jobTitle">
-                             </div>
-
-                             <!--Email address-->
-                             <div class="input-group flex flex-col items-start gap-1 w-full">
-                                <span class="text-[#344054] Raleway-Regular text-sm xl:text-base">Email Address</span>
-                                <input
-                                    class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular placeholder:2xl:text-lg"
-                                    placeholder="Email" type="email" formControlName="email">
-                             </div>
-
-                             <!--Phone Number-->
-                             <div class="input-group flex flex-col items-start gap-1 w-full">
-                                <span class="text-[#344054] Raleway-Regular text-sm xl:text-base">Phone Address</span>
-                                <input
-                                    class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular placeholder:2xl:text-lg"
-                                    placeholder="+233 20 000 0000" type="tel" formControlName="phone">
-                             </div>
-                             
-
-                        </div>
-
-                        <!-- Links -->
-                        <div class="flex flex-col items-start w-full gap-6 mt-12">
-                            <span class="Raleway-Medium xl:text-lg text-main-txt-color">Links</span>
-                            <!-- HTML -->
-                           <div class="flex items-center">
-                               <input type="checkbox" id="toggle" class="hidden">
-                               <label for="toggle" class="flex items-center cursor-pointer" [ngClass]="{'bg-blue-500': isChecked, 'bg-gray-400': !isChecked}">
-                                 <div class="relative">
-                                   <div class="w-10 h-4 rounded-full shadow-inner"></div>
-                                   <div class="toggle-dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0" [ngClass]="{'transform translate-x-full': isChecked}"></div>
-                                 </div>
-                                 <div class="ml-3 text-gray-700 font-medium">Toggle</div>
-                               </label>
-                             </div>
-  
-  
-
-                        </div>
-
-                    </div>
-                </div>
-            }
-
-            @if (currentStepIndex === 1) {
-                <div class="conent-area w-full h-full p-4">
-
-                </div>
-            }
-        </form>
-
+        </div>
     </div>
 
-    <div class="right w-full grid overflow-y-auto py-12 lg:px-10 xl:px-20 2xl:px-28 h-[100%]">
 
-        <app-template-one
-            class="template rounded-lg w-full h-fit border border-[#DEDEDE]"
-            [backgroundColor]="selectedBackgroundColor"
-            [mainTextColor]="selectedHeaderColor"
-            [formData]="resumeForm.value" 
-            [selectedImageUrl]="selectedFileUrl"></app-template-one>
+    @if (isTemplateDialogOpen) {
+        <div class="template-dialog w-full h-full absolute top-0 left-0 flex items-center justify-center">
+            <div class="layer absolute top-0 left-0 w-full h-full bg-[#00000050] z-40">
 
-    </div>
-</div>
+            </div>
+    
+            <div class="dialog-container w-[90%] h-4/5 bg-white rounded-xl relative z-[9999] p-6">
+            <img class="absolute right-10 top-6 cursor-pointer" (click)="openTemplateDialog()" src="/assets/icons/close.svg" alt="">
+             <app-cv-builder></app-cv-builder>
+            </div>
+        </div>
+    }
+    
 
 </section>

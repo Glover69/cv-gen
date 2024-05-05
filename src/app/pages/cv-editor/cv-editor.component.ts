@@ -3,41 +3,76 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { TemplateThreePreviewComponent } from '../../components/preview-templates/template-three-preview/template-three-preview.component';
 import { TemplateOneComponent } from '../../../assets/templates/template-one/template-one.component';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { PersonalInfoFormComponent } from '../forms/personal-info-form/personal-info-form.component';
+import { CvBuilderComponent } from '../cv-builder/cv-builder.component';
 
 type Steps = {
   icon: string;
   name: string;
-}
+};
 
 @Component({
   selector: 'app-cv-editor',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, TemplateThreePreviewComponent, TemplateOneComponent, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    TemplateThreePreviewComponent,
+    TemplateOneComponent,
+    ReactiveFormsModule,
+    FormsModule,
+    PersonalInfoFormComponent,
+    CvBuilderComponent
+  ],
   templateUrl: './cv-editor.component.html',
-  styleUrl: './cv-editor.component.scss'
+  styleUrl: './cv-editor.component.scss',
 })
 export class CvEditorComponent {
-
   currentStepIndex = 0;
   selectedFileUrl: string | null = null;
   customerProfilePhoto!: any;
   selectedFile: File | null = null;
-  isChecked: boolean = false;
+  isTemplateDialogOpen: boolean = false;
   resumeForm!: FormGroup;
-  @Output() imageSelected = new EventEmitter<string>();
+  // @Output() imageSelected = new EventEmitter<string>();
 
+  selectedImageUrl: string = '';
 
-  constructor(private fb: FormBuilder){
+  onImageSelected(imageUrl: string): void {
+    this.selectedImageUrl = imageUrl;
+    console.log(this.selectedImageUrl);
   }
 
+  openTemplateDialog(): void {
+    this.isTemplateDialogOpen = !this.isTemplateDialogOpen;
+  }
+
+  constructor(private fb: FormBuilder) {}
+
+  formData: any;
+
+  handleFormDataChange(data: any) {
+    this.formData = data;
+  }
 
   initForm(): void {
     this.resumeForm = this.fb.group({
       firstname: [''],
       lastname: [''],
       jobTitle: [''],
+      showLinkedIn: [true],
+      linkedIn: [''],
+      showWebsite: [false],
       website: [''],
+      showGitHub: [false],
+      github: [''],
       email: [''],
       phone: [''],
       profile: [''],
@@ -66,7 +101,7 @@ export class CvEditorComponent {
       type: [''],
       startDate: [''],
       endDate: [''],
-      responsibilities: this.fb.array([])
+      responsibilities: this.fb.array([]),
     });
   }
 
@@ -86,61 +121,44 @@ export class CvEditorComponent {
       degree: [''],
       fieldOfStudy: [''],
       startDate: [''],
-      endDate: ['']
+      endDate: [''],
     });
   }
 
 
-  selectedBackgroundColor: string = '#ffffff'; // Initial background color
-  selectedHeaderColor: string = '#000000'; // Initial header color
-
-  ngOnInit(){
-    // Retrieve selected colors from Local Storage if available
-    this.selectedBackgroundColor = localStorage.getItem('selectedBackgroundColor') || '#ffffff';
-    this.selectedHeaderColor = localStorage.getItem('selectedHeaderColor') || '#000000';
+  ngOnInit() {
     this.initForm();
-
   }
 
+  // onFileSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input?.files?.length) {
+  //     this.selectedFile = input.files[0];
+  //     this.selectedFileUrl = URL.createObjectURL(this.selectedFile);
+  //     console.log(this.selectedFileUrl);
 
+  //     this.imageSelected.emit(this.selectedFileUrl);
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      this.selectedFile = input.files[0];
-      this.selectedFileUrl = URL.createObjectURL(this.selectedFile);
-      console.log(this.selectedFileUrl);
-
-      this.imageSelected.emit(this.selectedFileUrl);
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        // Convert the selected file to a base64 string
-        const result = reader.result as string;
-     
-      };
-      reader.readAsDataURL(this.selectedFile);
-    }
-
-    
-  }
-
-
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       // Convert the selected file to a base64 string
+  //       const result = reader.result as string;
+  //     };
+  //     reader.readAsDataURL(this.selectedFile);
+  //   }
+  // }
 
   goToStep(index: number): void {
     this.currentStepIndex = index;
   }
 
   steps: Steps[] = [
-    {icon: '/assets/icons/personal-card.svg', name: 'Personal'},
-    {icon: '/assets/icons/receipt-edit.svg', name: 'Experience'},
-    {icon: '/assets/icons/teacher.svg', name: 'Education'}
-  ]
+    { icon: '/assets/icons/personal-card.svg', name: 'Personal' },
+    { icon: '/assets/icons/receipt-edit.svg', name: 'Experience' },
+    { icon: '/assets/icons/teacher.svg', name: 'Education' },
+  ];
 
-  printCV(){
+  printCV() {
     window.print();
   }
-
-  
 }
- 

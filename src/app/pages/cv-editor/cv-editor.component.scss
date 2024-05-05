@@ -2,6 +2,10 @@
 //     box-shadow: 0px 6.4px 8.54px -2.13px rgba(16,24,40,0.08), 0px 2.13px 3.2px -1.07px rgba(16,24,40,0.03);
 // }
 
+.toggle-dot{
+    box-shadow: 0px 1px 3px 0 #10182810;
+}
+
 .nav-option.inactive {
   img {
     filter: invert(20%) sepia(7%) saturate(325%) hue-rotate(177deg)
@@ -23,8 +27,3 @@
     color: #1172cc;
   }
 }
-
-.toggle-dot {
-    top: -1px;
-    transition: all 0.3s ease;
-  }

@@ -6,6 +6,7 @@ import { TemplateTwoPreviewComponent } from '../../components/preview-templates/
 import { TemplateThreePreviewComponent } from '../../components/preview-templates/template-three-preview/template-three-preview.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ColorService } from '../../../services/color.service';
 
 type ColorGroup = {
   colorName: string;
@@ -22,7 +23,7 @@ type ColorGroup = {
 })
 export class CvBuilderComponent {
 
-  constructor(public injector: Injector, private resolver: ComponentFactoryResolver, private router: Router) { }
+  constructor(public injector: Injector, private colorService: ColorService, private router: Router) { }
 
 
   ngOnInit(){
@@ -87,6 +88,8 @@ export class CvBuilderComponent {
   selectColor(color: string) {
     this.selectedBackgroundColor = color;
     this.selectedHeaderColor = color;
+
+    this.colorService.setTextColor(color);
 
     // Store selected colors in Local Storage
     localStorage.setItem('selectedBackgroundColor', this.selectedBackgroundColor);
