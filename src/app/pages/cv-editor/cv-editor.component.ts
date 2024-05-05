@@ -12,10 +12,14 @@ import {
 } from '@angular/forms';
 import { PersonalInfoFormComponent } from '../forms/personal-info-form/personal-info-form.component';
 import { CvBuilderComponent } from '../cv-builder/cv-builder.component';
+import { ExperienceFormComponent } from '../forms/experience-form/experience-form.component';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { ColorService } from '../../../services/color.service';
 
 type Steps = {
   icon: string;
   name: string;
+  route: string;
 };
 
 @Component({
@@ -29,7 +33,10 @@ type Steps = {
     ReactiveFormsModule,
     FormsModule,
     PersonalInfoFormComponent,
-    CvBuilderComponent
+    CvBuilderComponent,
+    ExperienceFormComponent,
+    RouterOutlet,
+    RouterModule
   ],
   templateUrl: './cv-editor.component.html',
   styleUrl: './cv-editor.component.scss',
@@ -54,7 +61,7 @@ export class CvEditorComponent {
     this.isTemplateDialogOpen = !this.isTemplateDialogOpen;
   }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private colorService: ColorService) {}
 
   formData: any;
 
@@ -62,100 +69,39 @@ export class CvEditorComponent {
     this.formData = data;
   }
 
-  initForm(): void {
-    this.resumeForm = this.fb.group({
-      firstname: [''],
-      lastname: [''],
-      jobTitle: [''],
-      showLinkedIn: [true],
-      linkedIn: [''],
-      showWebsite: [false],
-      website: [''],
-      showGitHub: [false],
-      github: [''],
-      email: [''],
-      phone: [''],
-      profile: [''],
-      profileImage: [''],
-      skills: this.fb.array([]),
-      experiences: this.fb.array([]),
-      educations: this.fb.array([]),
-    });
-  }
+  // addEducation(): void {
+  //   const educations = this.resumeForm.get('educations') as FormArray;
+  //   educations.push(this.createEducation());
+  // }
 
-  addExperience(): void {
-    const experiences = this.resumeForm.get('experiences') as FormArray;
-    experiences.push(this.createExperience());
-  }
+  // removeEducation(index: number): void {
+  //   const educations = this.resumeForm.get('educations') as FormArray;
+  //   educations.removeAt(index);
+  // }
 
-  removeExperience(index: number): void {
-    const experiences = this.resumeForm.get('experiences') as FormArray;
-    experiences.removeAt(index);
-  }
-
-  createExperience(): FormGroup {
-    return this.fb.group({
-      company: [''],
-      position: [''],
-      location: [''],
-      type: [''],
-      startDate: [''],
-      endDate: [''],
-      responsibilities: this.fb.array([]),
-    });
-  }
-
-  addEducation(): void {
-    const educations = this.resumeForm.get('educations') as FormArray;
-    educations.push(this.createEducation());
-  }
-
-  removeEducation(index: number): void {
-    const educations = this.resumeForm.get('educations') as FormArray;
-    educations.removeAt(index);
-  }
-
-  createEducation(): FormGroup {
-    return this.fb.group({
-      institution: [''],
-      degree: [''],
-      fieldOfStudy: [''],
-      startDate: [''],
-      endDate: [''],
-    });
-  }
-
+  // createEducation(): FormGroup {
+  //   return this.fb.group({
+  //     institution: [''],
+  //     degree: [''],
+  //     fieldOfStudy: [''],
+  //     startDate: [''],
+  //     endDate: [''],
+  //   });
+  // }
 
   ngOnInit() {
-    this.initForm();
+ 
   }
 
-  // onFileSelected(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input?.files?.length) {
-  //     this.selectedFile = input.files[0];
-  //     this.selectedFileUrl = URL.createObjectURL(this.selectedFile);
-  //     console.log(this.selectedFileUrl);
-
-  //     this.imageSelected.emit(this.selectedFileUrl);
-
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       // Convert the selected file to a base64 string
-  //       const result = reader.result as string;
-  //     };
-  //     reader.readAsDataURL(this.selectedFile);
-  //   }
-  // }
 
   goToStep(index: number): void {
     this.currentStepIndex = index;
   }
 
   steps: Steps[] = [
-    { icon: '/assets/icons/personal-card.svg', name: 'Personal' },
-    { icon: '/assets/icons/receipt-edit.svg', name: 'Experience' },
-    { icon: '/assets/icons/teacher.svg', name: 'Education' },
+    { icon: '/assets/icons/personal-card.svg', name: 'Personal', route: 'personal'},
+    { icon: '/assets/icons/receipt-edit.svg', name: 'Experience', route: 'experience'},
+    { icon: '/assets/icons/teacher.svg', name: 'Education', route: 'education'},
   ];
 
   printCV() {

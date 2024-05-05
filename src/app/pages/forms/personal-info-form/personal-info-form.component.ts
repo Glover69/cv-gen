@@ -1,40 +1,35 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../../../../services/data.service';
+// import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-personal-info-form',
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './personal-info-form.component.html',
-  styleUrl: './personal-info-form.component.scss'
+  styleUrl: './personal-info-form.component.scss',
 })
 export class PersonalInfoFormComponent {
-
   resumeForm!: FormGroup;
   selectedFileUrl: string | null = null;
   customerProfilePhoto!: any;
+  profileImageUrl: any;
   selectedFile: File | null = null;
   @Output() formDataChange = new EventEmitter<any>();
   @Output() imageSelected: EventEmitter<string> = new EventEmitter<string>();
-  
-  constructor(private fb: FormBuilder, private dataService: DataService){
 
-    
-  }
+  constructor(private fb: FormBuilder, private dataService: DataService) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.initForm();
 
-    this.retrieveForm();
-
     // Subscribe to form value changes
-    this.resumeForm.valueChanges.subscribe(value => {
+    this.resumeForm.valueChanges.subscribe((value) => {
       // Emit the updated form data
       this.formDataChange.emit(value);
     });
   }
-
 
   initForm(): void {
     this.resumeForm = this.fb.group({
@@ -51,9 +46,6 @@ export class PersonalInfoFormComponent {
       phone: [''],
       profile: [''],
       profileImage: [],
-      skills: this.fb.array([]),
-      experiences: this.fb.array([]),
-      educations: this.fb.array([]),
     });
   }
 
@@ -63,6 +55,7 @@ export class PersonalInfoFormComponent {
       this.selectedFile = input.files[0];
       this.selectedFileUrl = URL.createObjectURL(this.selectedFile);
       console.log(this.selectedFileUrl);
+      localStorage.setItem('profileImage', this.selectedFileUrl);
 
       this.imageSelected.emit(this.selectedFileUrl);
 
@@ -70,32 +63,14 @@ export class PersonalInfoFormComponent {
       reader.onload = () => {
         // Convert the selected file to a base64 string
         const result = reader.result as string;
-
-        this.resumeForm.patchValue({
-          profileImage: result
-      });
-     
       };
       reader.readAsDataURL(this.selectedFile);
     }
-
-    
   }
 
   saveForm(): void {
-    this.dataService.saveFormData(this.resumeForm, 'myFormDataKey');
+    // Authentication will go here in case the user hasnt logged in. 
+    // If they have,both image and data will be saved to the database
   }
 
-  retrieveForm(): void {
-    const formDataJson = this.dataService.getFormData('myFormDataKey');
-    if (formDataJson) {
-      // const retrievedForm = JSON.parse(formDataJson);
-      console.log(formDataJson.value);
-      this.resumeForm.patchValue(formDataJson.value);
-    } else {
-      console.log('No form data found in localStorage');
-    }
-  }
-  
-  
 }

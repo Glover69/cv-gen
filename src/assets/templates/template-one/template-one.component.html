@@ -2,7 +2,7 @@
     <div class="header flex items-end justify-between">
 
         <div class="left flex items-center gap-2">
-            <div [style.backgroundImage]="'url(' + selectedImageUrl + ')'" [style.backgroundColor]="textColor" class="w-9 h-9 rounded-full bg-cover bg-center bg-no-repeat">
+            <div [style.backgroundImage]="selectedImageUrl ? 'url(' + selectedImageUrl + ')' : 'url(' + customerProfilePhoto + ')'" [style.backgroundColor]="textColor" class="w-9 h-9 rounded-full bg-cover bg-center bg-no-repeat">
                 
             </div>
 
@@ -34,11 +34,14 @@
 
     <div class="main-body w-full flex flex-col gap-6">
 
-        <div class="profile-section w-full flex flex-col items-start gap-1">
-            <span class="RC-Medium uppercase text-[#6C6C6C] text-sm">Profile</span>
-
-            <span class="text-[10px] RM-Medium text-black">As a dedicated frontend developer, I possess a strong passion for crafting compelling and seamlessly functional user experiences.</span>
-        </div>
+        @if (experienceFormData.profile) {
+            <div class="profile-section w-full flex flex-col items-start gap-1">
+                <span class="RC-Medium uppercase text-[#6C6C6C] text-sm">Profile</span>
+    
+                <span class="text-[10px] RM-Medium text-black">{{experienceFormData.profile}}</span>
+            </div>
+        }
+        
 
         <div class="skills-section w-full flex flex-row items-start gap-1">
             <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Skills</span>
@@ -58,35 +61,57 @@
             </div>
         </div>
 
+
+    
         <div class="experience-section w-full flex flex-row items-start gap-1">
             <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Experience</span>
 
             <div class="right w-[70%] flex flex-col gap-4">
-                <div class="top-right flex flex-col items-start justify-between">
-                    <div class="header flex flex-row-reverse items-center gap-1 flex-shrink-0">
-                        <span [style.color]="textColor" class="RC-Medium text-sm">Apple Inc.</span>
-                        <span [style.backgroundColor]="textColor"
-                            class="line w-[1px] h-3 bg-[#6F7588]"></span>
-                        <span [style.color]="textColor" class="RC-Medium flex-shrink-0 text-xs">Frontend Developer</span>
+                @for (item of experienceFormData.experiences; track $index) {
+                    <div class=" flex flex-col gap-4">
+                        <div class="top-right flex flex-col items-start justify-between">
+
+                            @if (item.jobTitle || item.company) {
+                                <div class="header flex flex-row-reverse items-center gap-1 flex-shrink-0">
+                                    <span [style.color]="textColor" class="RC-Medium text-sm">{{item.company}}</span>
+                                    <span [style.backgroundColor]="textColor"
+                                        class="line w-[1px] h-3 bg-[#6F7588]"></span>
+                                    <span [style.color]="textColor" class="RC-Medium flex-shrink-0 text-xs">{{item.jobTitle}}</span>
+                                </div>
+                            }
+                            
+        
+                            @if (item.startDate || item.endDate || item.type) {
+                            <div class="flex flex-row items-center gap-1 flex-shrink-0">
+                                <!-- <span class="Roboto-Medium text-[10px] text-[#9FA3AE]">{{item.location}}</span>
+                                <span class="line w-[1px] h-3 bg-[#9FA3AE]"></span> -->
+                                <span class="Roboto-Medium flex-shrink-0 text-[10px] text-[#9FA3AE]">{{item.type}}</span>
+                                <span class="line w-[1px] h-3 bg-[#9FA3AE]"></span>
+                                @if (item.startDate || item.endDate) {
+                                    <span class="Roboto-Medium flex-shrink-0 text-[#9FA3AE] text-[10px]">{{item.startDate}} - {{item.endDate}}</span>
+                                }
+                            </div>
+                        }
+        
+                        </div>
+        
+                        @if (item.points.length > 0) {
+                            <div class="bottom-right text-[#6F7588] list-none relative flex flex-col items-start gap-1">
+                                <span class="Roboto-Regular text-[10px]">During this time, I gained;</span>
+    
+                                <!-- Points -->
+                                @for (points of item.points; track $index) {
+                                    <li class="Roboto-Regular pl-3 flex-shrink-0 flex-wrap text-[10px] text-left">{{points}}</li>
+                                }
+                                <!-- <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">Collaborated with cross-functional teams to create wireframes, prototypes, and high-fidelity mockups</li>
+                                <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">Facilitated design reviews and user testing sessions to gather feedback and improve design solutions</li> -->
+                            </div>
+                        }
+                        
                     </div>
-
-                    <div class="flex flex-row items-center gap-1 flex-shrink-0">
-                        <span class="Roboto-Medium text-[10px] text-[#9FA3AE]">San Francisco, CA</span>
-                        <span class="line w-[1px] h-3 bg-[#9FA3AE]"></span>
-                        <span class="Roboto-Medium flex-shrink-0 text-[10px] text-[#9FA3AE]">Internship</span>
-                        <span class="line w-[1px] h-3 bg-[#9FA3AE]"></span>
-                        <span class="Roboto-Medium flex-shrink-0 text-[#9FA3AE] text-[10px]">Aug 2022 - Aug 2023</span>
-                    </div>
-
-                </div>
-
-                <div class="bottom-right text-[#6F7588] list-none relative flex flex-col items-start gap-1">
-                    <span class="Roboto-Regular text-[10px]">During this time, I gained;</span>
-                    <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">Conducted user research and analyzed data to identify design opportunities and inform design decisions</li>
-                    <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">Collaborated with cross-functional teams to create wireframes, prototypes, and high-fidelity mockups</li>
-                    <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">Facilitated design reviews and user testing sessions to gather feedback and improve design solutions</li>
-                </div>
+                }
             </div>
+            
         </div>
 
         <div class="education-section w-full flex flex-row items-start gap-1">

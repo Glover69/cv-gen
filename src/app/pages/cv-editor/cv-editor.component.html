@@ -55,9 +55,16 @@
 
                 @if (currentStepIndex === 1) {
                 <div class="conent-area w-full h-full p-4">
-
+                <app-experience-form (formDataChange)="handleFormDataChange($event)"></app-experience-form>
                 </div>
                 }
+
+                @if (currentStepIndex === 2) {
+                    <div class="conent-area w-full h-full p-4">
+                    <!-- <app-experience-form></app-experience-form> -->
+                    </div>
+                }
+                <!-- <router-outlet></router-outlet> -->
             </div>
 
         </div>
@@ -65,7 +72,7 @@
         <div class="right w-full grid overflow-y-auto py-12 lg:px-10 xl:px-20 2xl:px-28 h-[100%]">
 
             <app-template-one class="template rounded-lg w-full h-fit border border-[#DEDEDE]"
-                [formData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one>
+                [formData]="formData" [experienceFormData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one>
 
         </div>
     </div>

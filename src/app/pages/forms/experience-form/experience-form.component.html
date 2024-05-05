@@ -1,0 +1,159 @@
+<form [formGroup]="experienceForm" class="content-area w-full h-full flex flex-col gap-6 items-start p-6">
+    <div class="header flex flex-col items-start gap-1">
+        <span class="Raleway-Medium lg:text-lg xl:text-xl text-main-txt-color">Experience</span>
+        <span class="Inter-Regular text-xs xl:text-sm text-sub-txt-color">Continue by filling information about your
+            most recent job, as well as past ones. You can add as much experiences as you want</span>
+    </div>
+
+
+    <div class="w-full flex flex-col gap-6 pb-6">
+        <div class="profile-input-group flex flex-col items-start gap-1 w-full">
+            <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Profile</span>
+            <textarea rows="6"
+                class=" resize-none focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular"
+                placeholder="What do you wanna say about yourself?" type="text" formControlName="profile"></textarea>
+
+            <button
+                class="generate-ai-btn flex mt-6 items-center w-fit gap-2 rounded-lg bg-blue border border-[#D0D5DD] text-[#344054] py-3 px-6">
+
+                <img src="/assets/icons/ai-magic.svg" alt="">
+                <span class="text-white Raleway-Medium">Generate using AI</span>
+            </button>
+        </div>
+
+        <div class="experience-section flex flex-col items-start mt-12">
+
+            <span class="text-main-txt-color Raleway-Medium text-sm xl:text-base">Experiences</span>
+
+
+
+            <!-- Div holding the experiences as a group -->
+            <div class="flex flex-col gap-12 w-full mt-4">
+                <ng-container formArrayName="experiences">
+                    @for (experience of experienceSectionFormArray; track $index) {
+                        <ng-container [formGroupName]="$index">
+                            <!-- A single experience, labelled in order using $index -->
+                            <div class="single-experience flex flex-col items-start gap-4 w-full">
+                                <div class="number Raleway-Medium text-3xl">{{$index + 1}}.</div>
+
+                            <div class="border border-dashed border-border-color flex flex-col items-start w-full gap-6 rounded-2xl p-4">
+                                <div class="input-group flex flex-col items-start gap-1 w-full">
+                                    <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Job Title</span>
+                                    <input
+                                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
+                                        placeholder="eg. Frontend Developer" type="text" formControlName="jobTitle">
+                                </div>
+
+                                <div class="input-group flex flex-col items-start gap-1 w-full">
+                                    <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Company/Organization Name</span>
+                                    <input
+                                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
+                                        placeholder="eg. Frontend Developer" type="text" formControlName="company">
+                                </div>
+
+
+                                <!-- Time Period section -->
+                                <div class="time-section flex flex-col items-start gap-4">
+                                    <span class="text-main-txt-color Raleway-Medium text-sm xl:text-base">Time Period</span>
+
+                                    <div class="flex items-center gap-2">
+                                        <div class="input-group flex flex-col items-start gap-1 w-full">
+                                            <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">From</span>
+                                            <input
+                                                class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
+                                                placeholder="eg. Jan 2022" type="text" formControlName="startDate">
+                                        </div>
+
+                                        <div class="input-group flex flex-col items-start gap-1 w-full">
+                                            <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">To</span>
+                                            <input
+                                                class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
+                                                placeholder="eg. Dec 2022" type="text" formControlName="endDate">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Type of employment -->
+
+                                <div class="input-group flex flex-col items-start gap-1 w-full">
+                                    <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Type of Employment</span>
+                                    <input
+                                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
+                                        placeholder="eg. Internship, Contract, Permanent" type="text" formControlName="type">
+                                </div>
+
+                                 <!-- Points section -->
+                                 <div class="points-section flex flex-col items-start gap-4 w-full">
+                                    <div class="flex items-center justify-between w-full">
+                                        <span class="text-main-txt-color Raleway-Medium text-sm xl:text-base">Points</span>
+
+                                        <button class="flex flex-row bg-[#EDF6FF] items-center gap-2 py-4 px-6 rounded-lg mt-8" type="button" (click)="addPoint($index)">
+                                            <img class="w-4" src="/assets/icons/add.svg" alt="">
+                                            <span class="Inter-SemiBold text-blue">Add new Point</span>
+                                        </button>
+                                    </div>
+                                    
+
+                                    <div class="flex flex-col items-center gap-3 w-full">
+                                        <ng-container formArrayName="points">
+                                            @for (points of experience.get('points')?.controls; track $index) {
+                                                <div class="input-group flex flex-col items-start gap-3 w-full">
+                                                    <div class="flex items-center justify-between w-full">
+                                                        <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Point {{$index + 1}}</span>
+
+                                                        <img (click)="removePoint($index, $index)" class="cursor-pointer" src="/assets/icons/trash.svg" alt="">
+                                                    </div>
+                                                    <textarea rows="5"
+                                                        class="resize-none focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
+                                                        placeholder="eg. Dec 2022" type="text" formControlName="{{$index}}"></textarea>
+                                                </div>
+                                            }
+                                            
+                                        </ng-container>
+                                    </div>
+
+
+                                </div>
+
+                                <button class="flex flex-row bg-[#FEE4E2] items-center gap-2 py-4 px-6 rounded-lg mt-8" type="button" (click)="removeExperience($index)">
+                                    <img class="w-4" src="/assets/icons/trash.svg" alt="">
+                                    <span class="Inter-SemiBold text-[#B42318]">Remove Experience</span>
+                                </button>
+                            </div>
+
+                            </div>
+                        </ng-container>
+                    }
+                </ng-container>
+            </div>
+
+
+                <button class="flex flex-row bg-[#EDF6FF] items-center gap-2 py-4 px-6 rounded-lg mt-8" type="button" (click)="addExperience()">
+                    <img class="w-4" src="/assets/icons/add.svg" alt="">
+                    <span class="Inter-SemiBold text-blue">Add new Experience</span>
+                  </button>
+               
+
+        
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div class="button-group flex items-center gap-4 w-full pb-12">
+        <!-- <div class="flex items-center gap-4 w-full">
+            <button disabled
+            class="reset-password-btn rounded-lg bg-white border flex-grow border-[#D0D5DD] text-[#344054] py-3 px-6 SF-Medium"
+            href="">Cancel</button>
+
+            <button (click)="saveForm()"
+            class="logout-btn rounded-lg bg-[#EDF6FF] border flex-grow border-[#EDF6FF] text-blue py-3 px-6 SF-Medium"
+            href="">Save & Continue</button>
+        </div> -->
+
+    </div>
+</form>

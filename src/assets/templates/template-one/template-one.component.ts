@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service';
-import { Resume } from '../../../models/data.models';
+import { ExperienceGroup, Resume } from '../../../models/data.models';
 import { ColorService } from '../../../services/color.service';
 // import jspdf from 'jspdf';
 // import html2canvas from 'html2canvas';
@@ -18,7 +18,11 @@ export class TemplateOneComponent {
 
   constructor(private dataService: DataService, private colorService: ColorService){}
   @Input() formData!: Resume;
+  @Input() experienceFormData!: ExperienceGroup;
   @Input() selectedImageUrl!: string | null;
+  @Input() selectedColor!: string;
+  customerProfilePhoto: any;
+
 
   selectedImage: File | null = null;
 
@@ -32,6 +36,7 @@ export class TemplateOneComponent {
     const storedTextColor = localStorage.getItem('textColor');
     if (storedTextColor) {
       this.textColor = storedTextColor;
+      this.colorService.updateTextColor(storedTextColor);
     }
 
     // Subscribe to changes in text color
@@ -39,6 +44,8 @@ export class TemplateOneComponent {
       this.textColor = color;
     });
   }
+
+
   exportToPdf(): void {
     const htmlContent = document.getElementById('cvContent')?.innerHTML;
     this.dataService.generatePdf(htmlContent)
