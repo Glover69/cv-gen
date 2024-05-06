@@ -16,7 +16,15 @@ export interface Resume {
 
 export interface ExperienceGroup {
   profile: string;
+  skills: Skills[];
   experiences: Experience[];
+}
+
+export interface Skills{
+  name: string;
+  color: string;
+  backgroundColor: string;
+  filter: string;
 }
 
 export interface Experience {

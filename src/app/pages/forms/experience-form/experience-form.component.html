@@ -21,6 +21,31 @@
             </button>
         </div>
 
+        <!-- Section for inputting skills -->
+        <div class="skills-section w-full flex flex-col gap-6">
+            <span class="text-main-txt-color Raleway-Medium text-sm xl:text-base">Skills</span>
+
+            <div class="chip-group flex flex-row flex-wrap gap-3">
+                @for (skillControl of skills.controls; track $index) {
+                    <div [style.background]="skillControl.value.backgroundColor" [style.color]="skillControl.value.color" class="Raleway-SemiBold chip w-fit text-sm rounded-3xl flex items-center justify-center p-2 px-4">
+                      {{ skillControl.value.name }}
+
+                      <img [style.filter]="skillControl.value.filter" (click)="removeSkill($index)" class="w-8 cursor-pointer" src="/assets/icons/close-white.svg" alt="">
+                    </div>
+              }
+            </div>
+            
+ 
+              <!-- <input type="text" placeholder="Add skill" (keydown.enter)="addSkill($event)"> -->
+              <div class="input-group flex flex-col items-start gap-1 w-full">
+                <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Add Skill</span>
+                <input #skillInput (keydown.enter)="addSkill(skillInput.value)"
+                    class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
+                    placeholder="eg. Typescript" type="text">
+            </div>
+        </div>
+
+        <!-- Section for adding experiences -->
         <div class="experience-section flex flex-col items-start mt-12">
 
             <span class="text-main-txt-color Raleway-Medium text-sm xl:text-base">Experiences</span>
@@ -30,11 +55,11 @@
             <!-- Div holding the experiences as a group -->
             <div class="flex flex-col gap-12 w-full mt-4">
                 <ng-container formArrayName="experiences">
-                    @for (experience of experienceSectionFormArray; track $index) {
-                        <ng-container [formGroupName]="$index">
+                    @for (experience of experienceSectionFormArray; track experience; let i = $index) {
+                        <ng-container [formGroupName]="i">
                             <!-- A single experience, labelled in order using $index -->
                             <div class="single-experience flex flex-col items-start gap-4 w-full">
-                                <div class="number Raleway-Medium text-3xl">{{$index + 1}}.</div>
+                                <div class="number Raleway-Medium text-3xl">{{i + 1}}.</div>
 
                             <div class="border border-dashed border-border-color flex flex-col items-start w-full gap-6 rounded-2xl p-4">
                                 <div class="input-group flex flex-col items-start gap-1 w-full">
@@ -87,7 +112,7 @@
                                     <div class="flex items-center justify-between w-full">
                                         <span class="text-main-txt-color Raleway-Medium text-sm xl:text-base">Points</span>
 
-                                        <button class="flex flex-row bg-[#EDF6FF] items-center gap-2 py-4 px-6 rounded-lg mt-8" type="button" (click)="addPoint($index)">
+                                        <button class="flex flex-row bg-[#EDF6FF] items-center gap-2 py-4 px-6 rounded-lg mt-8" type="button" (click)="addPoint(i)">
                                             <img class="w-4" src="/assets/icons/add.svg" alt="">
                                             <span class="Inter-SemiBold text-blue">Add new Point</span>
                                         </button>
@@ -101,7 +126,7 @@
                                                     <div class="flex items-center justify-between w-full">
                                                         <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Point {{$index + 1}}</span>
 
-                                                        <img (click)="removePoint($index, $index)" class="cursor-pointer" src="/assets/icons/trash.svg" alt="">
+                                                        <img (click)="removePoint(i, $index)" class="cursor-pointer" src="/assets/icons/trash.svg" alt="">
                                                     </div>
                                                     <textarea rows="5"
                                                         class="resize-none focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
@@ -115,7 +140,7 @@
 
                                 </div>
 
-                                <button class="flex flex-row bg-[#FEE4E2] items-center gap-2 py-4 px-6 rounded-lg mt-8" type="button" (click)="removeExperience($index)">
+                                <button class="flex flex-row bg-[#FEE4E2] items-center gap-2 py-4 px-6 rounded-lg mt-8" type="button" (click)="removeExperience(i)">
                                     <img class="w-4" src="/assets/icons/trash.svg" alt="">
                                     <span class="Inter-SemiBold text-[#B42318]">Remove Experience</span>
                                 </button>

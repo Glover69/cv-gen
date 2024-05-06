@@ -61,10 +61,9 @@
 
                 @if (currentStepIndex === 2) {
                     <div class="conent-area w-full h-full p-4">
-                    <!-- <app-experience-form></app-experience-form> -->
+                    <app-education-form (formDataChange)="handleFormDataChange($event)"></app-education-form>
                     </div>
                 }
-                <!-- <router-outlet></router-outlet> -->
             </div>
 
         </div>

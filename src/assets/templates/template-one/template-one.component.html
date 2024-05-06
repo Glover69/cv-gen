@@ -43,23 +43,28 @@
         }
         
 
-        <div class="skills-section w-full flex flex-row items-start gap-1">
-            <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Skills</span>
-
-            <div class="text-[10px] RM-Medium grid grid-cols-3 gap-x-1 gap-y-1 text-black w-[70%]">
-                <span class="">TypeScript</span>
-                <span class="">Angular</span>
-                <span class="">React.js</span>
-                <span class="">HTML5</span>
-                <span class="">CSS/SCSS</span>
-                <span class="">TailwindCSS</span>
-                <span class="">Node.JS</span>
-                <span class="">NextJS</span>
-                <span class="">TypeScript</span>
-
-
+        @if (experienceFormData.skills) {
+            <div class="skills-section w-full flex flex-row items-start gap-1">
+                <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Skills</span>
+    
+                <div class="text-[10px] RM-Medium grid grid-cols-3 gap-x-1 gap-y-1 text-black w-[70%]">
+                    @for (item of experienceFormData.skills; track $index) {
+                        <span class="">{{item.name}}</span>
+                    }
+                    <!-- <span class="">Angular</span>
+                    <span class="">React.js</span>
+                    <span class="">HTML5</span>
+                    <span class="">CSS/SCSS</span>
+                    <span class="">TailwindCSS</span>
+                    <span class="">Node.JS</span>
+                    <span class="">NextJS</span>
+                    <span class="">TypeScript</span> -->
+    
+    
+                </div>
             </div>
-        </div>
+        }
+        
 
 
     

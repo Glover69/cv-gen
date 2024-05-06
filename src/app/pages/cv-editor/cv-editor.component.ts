@@ -15,6 +15,7 @@ import { CvBuilderComponent } from '../cv-builder/cv-builder.component';
 import { ExperienceFormComponent } from '../forms/experience-form/experience-form.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { ColorService } from '../../../services/color.service';
+import { EducationFormComponent } from '../forms/education-form/education-form.component';
 
 type Steps = {
   icon: string;
@@ -36,7 +37,8 @@ type Steps = {
     CvBuilderComponent,
     ExperienceFormComponent,
     RouterOutlet,
-    RouterModule
+    RouterModule,
+    EducationFormComponent
   ],
   templateUrl: './cv-editor.component.html',
   styleUrl: './cv-editor.component.scss',
