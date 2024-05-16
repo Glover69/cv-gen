@@ -42,7 +42,7 @@
 
 
     <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-4 xl:px-10 2xl:px-0 3xl:px-20 h-full">
-        <app-template-one-preview
+        <!-- <app-template-one-preview
             class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
             [backgroundColor]="selectedBackgroundColor" [mainTextColor]="selectedHeaderColor" (click)="selectComponent('template-one-preview')">
         </app-template-one-preview>
@@ -55,7 +55,18 @@
         <app-template-three-preview
             class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
             [backgroundColor]="selectedBackgroundColor"
-            [mainTextColor]="selectedHeaderColor"></app-template-three-preview>
+            [mainTextColor]="selectedHeaderColor"></app-template-three-preview> -->
+
+            <app-template-one-preview class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
+            [backgroundColor]="selectedBackgroundColor"
+            [mainTextColor]="selectedHeaderColor" (click)="onTemplateSelected('template-one')"></app-template-one-preview>
+            <app-template-two-preview class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
+            [backgroundColor]="selectedBackgroundColor"
+            [mainTextColor]="selectedHeaderColor" (click)="onTemplateSelected('template-two')"></app-template-two-preview>
+            <app-template-three-preview class="template scale-[0.85] overflow-hidden h-[35rem] cursor-pointer hover:border hover:scale-[0.9] hover:border-black hover:transition-all border border-[#00000010] rounded-md w-full"
+            [backgroundColor]="selectedBackgroundColor"
+            [mainTextColor]="selectedHeaderColor" (click)="onTemplateSelected('template-three')"></app-template-three-preview>
+            
     </div>
 
     <!-- <div class="template-group grid lg:grid-cols-2 xl:grid-cols-3 px-12 xl:px-16">

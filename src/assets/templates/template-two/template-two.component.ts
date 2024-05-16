@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnChanges, OnInit, SimpleChanges, Type, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service';
 import { Education, EducationGroup, ExperienceGroup, Resume } from '../../../models/data.models';
 import { ColorService } from '../../../services/color.service';
@@ -8,19 +8,16 @@ import { ColorService } from '../../../services/color.service';
 
 
 @Component({
-  selector: 'app-template-one',
+  selector: 'app-template-two',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
-  templateUrl: './template-one.component.html',
-  styleUrl: './template-one.component.scss'
+  templateUrl: './template-two.component.html',
+  styleUrl: './template-two.component.scss'
 })
-export class TemplateOneComponent implements OnInit, OnChanges {
+export class TemplateTwoComponent implements OnInit, OnChanges {
 
- 
-
-  constructor(private dataService: DataService, private colorService: ColorService, private cdr: ChangeDetectorRef, private injector: Injector){
-  }
+  constructor(private dataService: DataService, private colorService: ColorService, private cdr: ChangeDetectorRef){}
   @Input() formData!: Resume;
   @Input() experienceFormData!: ExperienceGroup;
   @Input() educationFormData!: EducationGroup;

@@ -21,6 +21,8 @@
             </button>
         </div>
 
+      
+
         <!-- Section for inputting skills -->
         <div class="skills-section w-full flex flex-col gap-6">
             <span class="text-main-txt-color Raleway-Medium text-sm xl:text-base">Skills</span>
@@ -147,6 +149,7 @@
                             </div>
 
                             </div>
+                            
                         </ng-container>
                     }
                 </ng-container>
@@ -170,15 +173,15 @@
 
 
     <div class="button-group flex items-center gap-4 w-full pb-12">
-        <!-- <div class="flex items-center gap-4 w-full">
-            <button disabled
+        <div class="flex items-center gap-4 w-full">
+            <button (click)="onPreviousClick(1)"
             class="reset-password-btn rounded-lg bg-white border flex-grow border-[#D0D5DD] text-[#344054] py-3 px-6 SF-Medium"
-            href="">Cancel</button>
+            href="">Previous</button>
 
-            <button (click)="saveForm()"
+            <button (click)="onContinueClick(2)"
             class="logout-btn rounded-lg bg-[#EDF6FF] border flex-grow border-[#EDF6FF] text-blue py-3 px-6 SF-Medium"
             href="">Save & Continue</button>
-        </div> -->
+        </div>
 
     </div>
 </form>

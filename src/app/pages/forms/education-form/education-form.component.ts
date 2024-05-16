@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { DataService } from '../../../../services/data.service';
 
 @Component({
   selector: 'app-education-form',
@@ -12,20 +13,74 @@ export class EducationFormComponent {
 
   educationForm!: FormGroup;
   @Output() formDataChange = new EventEmitter<any>();
+  @Input() formData: any;
+  @Output() continueClicked = new EventEmitter<{ formData: any, nextStep: number }>(); // Emit event when continue button is clicked
 
-  constructor(private fb: FormBuilder) {
+
+  constructor(private fb: FormBuilder, private dataService: DataService) {
 
   }
 
   ngOnInit(){
     this.initForm();
+      // // Subscribe to form value changes
+      this.educationForm.valueChanges.subscribe((value) => {
+        // Emit the updated form data
+        this.formDataChange.emit(value);
+      });
+  }
+
+  updateFormData(newData: any): void {
+    // Update local formData
+    this.formData = newData;
+    // Emit updated formData to parent
+    this.formDataChange.emit(newData);
+  }
+
+  onContinueClick(nextStep: number): void {
+    this.updateFormData(this.formData);
+    this.continueClicked.emit({ formData: this.formData, nextStep });
+  }
+
+  onPreviousClick(nextStep: number): void {
+    this.updateFormData(this.formData);
+    this.continueClicked.emit({ formData: this.formData, nextStep });
+  }
+
+  handleFormChange(formData: any): void {
+    this.formDataChange.emit(formData);
+    // this.dataService.updateFormData(formData);
   }
 
   initForm(): void {
     this.educationForm = this.fb.group({
-      profile: [''],
-      skills: this.fb.array([]),
-      experiences: this.fb.array([]),
+      education: this.fb.array([]),
     })
+  }
+
+  get educationSectionFormArray(): any[] {
+    return (this.educationForm.get('education') as FormArray).controls;
+  }
+
+
+  addEducation(): void {
+    const education = this.educationForm.get('education') as FormArray;
+    education.push(this.createEducation());
+  }
+
+  removeEducation(index: number): void {
+    const education = this.educationForm.get('education') as FormArray;
+    education.removeAt(index);
+  }
+
+
+  createEducation(): FormGroup {
+    return this.fb.group({
+      institution: [''],
+      certification: [''],
+      fieldOfStudy: [''],
+      startDate: [''],
+      endDate: [''],
+    });
   }
 }

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../../../../services/data.service';
 // import { AuthService } from '@auth0/auth0-angular';
@@ -10,28 +17,50 @@ import { DataService } from '../../../../services/data.service';
   templateUrl: './personal-info-form.component.html',
   styleUrl: './personal-info-form.component.scss',
 })
-export class PersonalInfoFormComponent {
+export class PersonalInfoFormComponent implements OnInit {
   resumeForm!: FormGroup;
   selectedFileUrl: string | null = null;
   customerProfilePhoto!: any;
   profileImageUrl: any;
   selectedFile: File | null = null;
+  @Input() formData: any;
   @Output() formDataChange = new EventEmitter<any>();
   @Output() imageSelected: EventEmitter<string> = new EventEmitter<string>();
+  @Output() continueClicked = new EventEmitter<{
+    formData: any;
+    nextStep: number;
+  }>(); // Emit event when continue button is clicked
+  retrievedImage: any;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
 
-  ngOnInit() {
-    this.initForm();
+  constructor(
+    private fb: FormBuilder,
+    private dataService: DataService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-    // Subscribe to form value changes
-    this.resumeForm.valueChanges.subscribe((value) => {
-      // Emit the updated form data
-      this.formDataChange.emit(value);
-    });
+  updateFormData(newData: any): void {
+    this.formData = newData;
+    this.formDataChange.emit(newData);
+    this.cdr.detectChanges();
   }
 
-  initForm(): void {
+  onContinueClick(nextStep: number): void {
+    // Save formData to localStorage
+    // localStorage.setItem('formData', JSON.stringify(this.formData));
+    this.updateFormData(this.formData);
+    this.continueClicked.emit({ formData: this.formData, nextStep });
+  }
+
+  ngOnInit() {
+    // this.initForm();
+
+    // this.dataService.getFormData().subscribe(formData => {
+    //   // Update local form data
+    //   this.formData = formData;
+    // });
+
+    
     this.resumeForm = this.fb.group({
       firstname: [''],
       lastname: [''],
@@ -47,6 +76,62 @@ export class PersonalInfoFormComponent {
       profile: [''],
       profileImage: [],
     });
+
+    // const storedFormData = localStorage.getItem('formData');
+    // if (storedFormData) {
+    //   this.formData = JSON.parse(storedFormData);
+    //   this.resumeForm.patchValue({
+    //     firstname: this.formData.firstname,
+    //     lastname: this.formData.lastname,
+    //     jobTitle: this.formData.jobTitle,
+    //   });
+    //   this.cdr.detectChanges();
+
+    // }
+
+
+    // const storedImage = localStorage.getItem('profileImage');
+    // if (storedImage) {
+    //   this.retrievedImage = storedImage;
+    //   console.log(this.retrievedImage)
+    //   this.resumeForm.patchValue({
+    //     profileImage: this.retrievedImage
+    //     // Add other form fields here if needed
+    //   });
+    //   console.log(this.resumeForm.get('profileImage')?.value);
+    // }
+    
+
+    // this.formData = JSON.parse(storedFormData);
+      this.resumeForm.patchValue({
+        firstname: this.formData.firstname,
+        lastname: this.formData.lastname,
+        jobTitle: this.formData.jobTitle,
+        email: this.formData.email,
+        showLinkedIn: this.formData.showLinkedIn,
+        showGitHub: this.formData.showGitHub,
+        showWebsite: this.formData.showWebsite,
+        linkedIn: this.formData.linkedIn,
+        github: this.formData.github,
+        website: this.formData.website,
+        phone: this.formData.phone,
+      });
+
+
+    // Subscribe to form value changes
+    this.resumeForm.valueChanges.subscribe((value) => {
+      // Emit the updated form data
+      this.formDataChange.emit(value);
+      this.cdr.detectChanges();
+    });
+
+    
+  }
+
+  handleFormChange(formData: any): void {
+    this.formDataChange.emit(formData);
+    this.cdr.detectChanges();
+    // this.dataService.updateFormData(formData);
   }
 
   onFileSelected(event: Event): void {
@@ -69,8 +154,7 @@ export class PersonalInfoFormComponent {
   }
 
   saveForm(): void {
-    // Authentication will go here in case the user hasnt logged in. 
+    // Authentication will go here in case the user hasnt logged in.
     // If they have,both image and data will be saved to the database
   }
-
 }

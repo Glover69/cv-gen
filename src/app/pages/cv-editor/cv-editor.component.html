@@ -8,12 +8,26 @@
             <span class="Raleway-Bold text-xl text-black">CVGen</span>
         </div>
 
-        <div class="right">
+        <div class="right flex items-center gap-4">
+
+
+            @if (!auth.user$) {
+            <button (click)="login()"
+                class="login rounded-lg bg-white border flex-grow border-[#D0D5DD] text-[#344054] py-3 px-6 SF-Medium"
+                href="">Login</button>
+            }
+
 
             <button (click)="printCV()" class="bg-blue rounded-lg px-6 py-4 flex items-center gap-3">
                 <img src="/assets/icons/document-download.svg" alt="">
                 <span class="Raleway-SemiBold text-[#fff]">Download</span>
             </button>
+
+            <div style="background-image: url('{{user.picture}}');" *ngIf="user"
+                class="w-12 h-12 rounded-full bg-center bg-cover bg-no-repeat">
+
+            </div>
+
 
         </div>
     </div>
@@ -50,19 +64,23 @@
 
             <div class="left-content w-full h-full col-span-4 overflow-y-auto">
                 @if (currentStepIndex === 0) {
-                <app-personal-info-form (imageSelected)="onImageSelected($event)" (formDataChange)="handleFormDataChange($event)"></app-personal-info-form>
+                <app-personal-info-form [formData]="formData" (imageSelected)="onImageSelected($event)"
+                    (formDataChange)="handleFormDataChange($event)"
+                    (continueClicked)="handleContinueClick($event)"></app-personal-info-form>
                 }
 
                 @if (currentStepIndex === 1) {
-                <div class="conent-area w-full h-full p-4">
-                <app-experience-form (formDataChange)="handleFormDataChange($event)"></app-experience-form>
+                <div class="content-area w-full h-full p-4">
+                    <app-experience-form [formData]="formData" (continueClicked)="handleContinueClick($event)"
+                        (formDataChange)="handleFormDataChange($event)"></app-experience-form>
                 </div>
                 }
 
                 @if (currentStepIndex === 2) {
-                    <div class="conent-area w-full h-full p-4">
-                    <app-education-form (formDataChange)="handleFormDataChange($event)"></app-education-form>
-                    </div>
+                <div class="content-area w-full h-full p-4">
+                    <app-education-form [formData]="formData" (continueClicked)="handleContinueClick($event)"
+                        (formDataChange)="handleFormDataChange($event)"></app-education-form>
+                </div>
                 }
             </div>
 
@@ -70,25 +88,33 @@
 
         <div class="right w-full grid overflow-y-auto py-12 lg:px-10 xl:px-20 2xl:px-28 h-[100%]">
 
-            <app-template-one class="template rounded-lg w-full h-fit border border-[#DEDEDE]"
-                [formData]="formData" [experienceFormData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one>
+            <!-- <div #templateHost class="hidden"></div> -->
+            <!-- <app-template-one class="template rounded-lg w-full h-fit border border-[#DEDEDE]" [formData]="formData"
+                [experienceFormData]="formData" [educationFormData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one> -->
+
+            <ng-container *ngComponentOutlet="templateOne; inputs: { formData, selectedImageUrl }"></ng-container>
+
+            <!-- <ng-container *ngComponentOutlet="templateComponent; injector: templateInjector"></ng-container> -->
+
 
         </div>
     </div>
 
 
     @if (isTemplateDialogOpen) {
-        <div class="template-dialog w-full h-full absolute top-0 left-0 flex items-center justify-center">
-            <div class="layer absolute top-0 left-0 w-full h-full bg-[#00000050] z-40">
+    <div class="template-dialog w-full h-full absolute top-0 left-0 flex items-center justify-center">
+        <div class="layer absolute top-0 left-0 w-full h-full bg-[#00000050] z-40">
 
-            </div>
-    
-            <div class="dialog-container w-[90%] h-4/5 bg-white rounded-xl relative z-[9999] p-6">
-            <img class="absolute right-10 top-6 cursor-pointer" (click)="openTemplateDialog()" src="/assets/icons/close.svg" alt="">
-             <app-cv-builder></app-cv-builder>
-            </div>
         </div>
+
+        <div class="dialog-container w-[90%] h-4/5 bg-white rounded-xl relative z-[9999] p-6">
+            <img class="absolute right-10 top-6 cursor-pointer" (click)="openTemplateDialog()"
+                src="/assets/icons/close.svg" alt="">
+            <app-cv-builder [formData]="formData" [experienceFormData]="formData" [educationFormData]="formData"
+                [selectedImageUrl]="selectedImageUrl" (templateSelected)="loadTemplate($event)"></app-cv-builder>
+        </div>
+    </div>
     }
-    
+
 
 </section>
