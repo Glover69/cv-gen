@@ -54,19 +54,27 @@ export class ExperienceFormComponent {
     this.continueClicked.emit({ formData: this.formData, nextStep });
   }
 
-  handleFormChange(formData: any): void {
-    this.formDataChange.emit(formData);
-    this.cdr.detectChanges();
-    // this.dataService.updateFormData(formData);
-  }
 
   ngOnInit() {
-    this.initForm();
+    // this.initForm();
+
+    this.experienceForm = this.fb.group({
+      profile: [''],
+      skills: this.fb.array([]),
+      experiences: this.fb.array([]),
+    });
 
     this.experienceForm.patchValue({
       profile: this.formData.profile,
-      skills: this.formData.skills,
-      experiences: this.formData.experiences
+      // skills: this.formData.skills,
+      // experiences: this.formData.experiences
+    });
+
+     // Subscribe to form value changes
+     this.experienceForm.valueChanges.subscribe((value) => {
+      // Emit the updated form data
+      this.formDataChange.emit(value);
+      this.cdr.detectChanges();
     });
 
     const initialSkills = this.formData.skills;
@@ -82,21 +90,22 @@ export class ExperienceFormComponent {
       this.setExperiences(initialExperiences);
     }
 
-    // Subscribe to form value changes
-    this.experienceForm.valueChanges.subscribe((value) => {
-      // Emit the updated form data
-      this.formDataChange.emit(value);
-      this.cdr.detectChanges();
-    });
+   
   }
 
-  initForm(): void {
-    this.experienceForm = this.fb.group({
-      profile: [''],
-      skills: this.fb.array([]),
-      experiences: this.fb.array([]),
-    });
+  handleFormChange(formData: any): void {
+    this.formDataChange.emit(formData);
+    this.cdr.detectChanges();
+    // this.dataService.updateFormData(formData);
   }
+
+  // initForm(): void {
+  //   this.experienceForm = this.fb.group({
+  //     profile: [''],
+  //     skills: this.fb.array([]),
+  //     experiences: this.fb.array([]),
+  //   });
+  // }
 
   setSkills(skills: string[]) {
     const skillFormArray = this.experienceForm.get('skills') as FormArray;

@@ -23,11 +23,33 @@ export class EducationFormComponent {
 
   ngOnInit(){
     this.initForm();
+
+    const initialEducation = this.formData.education;
+    console.log(initialEducation);
+
+    if(initialEducation?.length >= 1){
+      this.setEducation(initialEducation);
+    }
       // // Subscribe to form value changes
       this.educationForm.valueChanges.subscribe((value) => {
         // Emit the updated form data
         this.formDataChange.emit(value);
       });
+  }
+
+  setEducation(education: any[]) {
+    const educationFormArray = this.educationForm.get('education') as FormArray;
+    if (education) {
+      education.forEach(edu => {
+        educationFormArray.push(this.fb.group({
+          institution: [edu.institution],
+          certification: [edu.certification],
+          fieldOfStudy: [edu.fieldOfStudy],
+          startDate: [edu.startDate],
+          endDate: [edu.endDate],
+        }));
+      });
+    }
   }
 
   updateFormData(newData: any): void {

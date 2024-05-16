@@ -73,7 +73,6 @@ export class PersonalInfoFormComponent implements OnInit {
       github: [''],
       email: [''],
       phone: [''],
-      profile: [''],
       profileImage: [],
     });
 
