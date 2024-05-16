@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AIService {
 
-  private baseUrl = 'http://localhost:2005'; // Update with your backend API URL
+  private baseUrl = 'https://central-backend.vercel.app'; // Update with your backend API URL
 
   constructor(private http: HttpClient) { }
 
