@@ -14,6 +14,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { DataService } from '../../../../services/data.service';
+import { AIService } from '../../../../services/ai.service';
 
 @Component({
   selector: 'app-experience-form',
@@ -35,7 +36,8 @@ export class ExperienceFormComponent {
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private aiService: AIService
   ) {}
 
   updateFormData(newData: any): void {
@@ -58,6 +60,8 @@ export class ExperienceFormComponent {
   ngOnInit() {
     // this.initForm();
 
+    this.generateContent();
+    
     this.experienceForm = this.fb.group({
       profile: [''],
       skills: this.fb.array([]),
@@ -97,6 +101,18 @@ export class ExperienceFormComponent {
     this.formDataChange.emit(formData);
     this.cdr.detectChanges();
     // this.dataService.updateFormData(formData);
+  }
+
+  generateContent() {
+    const prompt = `I am a ${this.formData.jobTitle}. Give me an interesting bio in 3-4 sentences`;
+    this.aiService.generateContent(prompt).subscribe(
+      (generatedContent: string) => {
+        console.log('Generated Content:', generatedContent);
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
   }
 
   // initForm(): void {
