@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ColorService } from '../../../services/color.service';
 import { CvEditorComponent } from '../cv-editor/cv-editor.component';
+import { TemplateTwoComponent } from '../../../assets/templates/template-two/template-two.component';
 
 type ColorGroup = {
   colorName: string;
@@ -74,44 +75,29 @@ export class CvBuilderComponent {
     switch (templateName) {
       case 'template-one':
         templateComponent = TemplateOneComponent;
-        bindings = {
-          formData: this.formData,
-          experienceFormData: this.formData,
-          educationFormData: this.formData,
-          selectedImageUrl: this.selectedImageUrl,
-        };
         break;
       case 'template-two':
-        templateComponent = TemplateOneComponent;
-        bindings = {
-          formData: this.formData,
-          experienceFormData: this.formData,
-          educationFormData: this.formData,
-          selectedImageUrl: this.selectedImageUrl,
-        };
+        templateComponent = TemplateTwoComponent;
         break;
       case 'template-three':
-        templateComponent = TemplateOneComponent;
-        bindings = {
-          formData: this.formData,
-          experienceFormData: this.formData,
-          educationFormData: this.formData,
-          selectedImageUrl: this.selectedImageUrl,
-        };
+        templateComponent = TemplateOneComponent; // Corrected assignment
         break;
       default:
         templateComponent = TemplateOneComponent; // Default template
-        bindings = {
-          formData: this.formData,
-          experienceFormData: this.formData,
-          educationFormData: this.formData,
-          selectedImageUrl: this.selectedImageUrl,
-        };
         break;
     }
   
+    // Assign bindings (common for all templates)
+    bindings = {
+      formData: this.formData,
+      experienceFormData: this.formData,
+      educationFormData: this.formData,
+      selectedImageUrl: this.selectedImageUrl,
+    };
+  
     this.templateSelected.emit({ templateComponent, bindings });
   }
+  
   
 
   selectTemplate(template: Type<any>): void {

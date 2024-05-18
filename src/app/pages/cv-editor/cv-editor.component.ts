@@ -69,8 +69,10 @@ export class CvEditorComponent {
   selectedFile: File | null = null;
   isTemplateDialogOpen: boolean = false;
   resumeForm!: FormGroup;
-  @ViewChild('templateHost', { read: ViewContainerRef })
-  templateHost!: ViewContainerRef;
+  // @ViewChild('templateHost', { read: ViewContainerRef })
+  // templateHost!: ViewContainerRef;
+  @ViewChild('templateHost', { read: ViewContainerRef }) templateHost: ViewContainerRef;
+
   @Output() templateSelected = new EventEmitter<Type<any>>();
   selectedTemplate: Type<any> | null = null;
   // @Output() imageSelected = new EventEmitter<string>();
@@ -118,7 +120,8 @@ export class CvEditorComponent {
     public auth: AuthService,
     @Inject(DOCUMENT) public document: Document,
   ) {
-     this.templateOne = TemplateTwoComponent;
+     this.templateOne = TemplateOneComponent;
+     this.templateHost = {} as ViewContainerRef; // Initialize templateHost here
 
   }
 

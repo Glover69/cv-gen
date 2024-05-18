@@ -11,21 +11,33 @@ import {
   FormArray,
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { DataService } from '../../../../services/data.service';
 import { AIService } from '../../../../services/ai.service';
 
+type GeneratedContent = {
+  content: string;
+}
+
+
 @Component({
   selector: 'app-experience-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './experience-form.component.html',
   styleUrl: './experience-form.component.scss',
 })
 export class ExperienceFormComponent {
   experienceForm!: FormGroup;
   @Input() formData: any;
+  isAIDialogOpen: boolean = false;
+  placeholder: string = '';
+  instruction: string = ' (Press Tab to insert)';
+  textareaValue: string = '';
+  generatedContent: string = '';
+  isContentGenerated: boolean = false;
 
   @Output() formDataChange = new EventEmitter<any>();
   @Output() continueClicked = new EventEmitter<{
@@ -38,7 +50,44 @@ export class ExperienceFormComponent {
     private dataService: DataService,
     private cdr: ChangeDetectorRef,
     private aiService: AIService
-  ) {}
+  ) {
+  }
+
+  setRandomPlaceholder() {
+    const placeholders = [
+      'Type something here...',
+      'Give me a brief bio about myself as a doctor',
+      // 'Your notes...',
+      // 'Write something...'
+    ];
+  
+    if (this?.formData?.jobTitle) {
+      this.placeholder = `I am a ${this.formData.jobTitle}. Give me an interesting bio in 3-4 sentences`;
+    } else {
+      this.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
+    }
+  }
+
+  onFocus(event: FocusEvent) {
+    // Store the current placeholder when the textarea gains focus
+    const target = event.target as HTMLTextAreaElement;
+    this.placeholder = target.placeholder;
+  }
+
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      // Set the placeholder text as the value
+      this.textareaValue = this.placeholder;
+    }
+  }
+
+
+  openAIDialog(): void {
+    this.isAIDialogOpen = !this.isAIDialogOpen;
+    this.setRandomPlaceholder();
+
+  }
 
   updateFormData(newData: any): void {
     this.formData = newData;
@@ -60,7 +109,8 @@ export class ExperienceFormComponent {
   ngOnInit() {
     // this.initForm();
 
-    this.generateContent();
+    // this.generateContent();
+
     
     this.experienceForm = this.fb.group({
       profile: [''],
@@ -104,10 +154,15 @@ export class ExperienceFormComponent {
   }
 
   generateContent() {
-    const prompt = `I am a ${this.formData.jobTitle}. Give me an interesting bio in 3-4 sentences`;
+    this.isContentGenerated = !this.isContentGenerated;
+
+    // const prompt = `I am a ${this.formData.jobTitle}. Give me an interesting bio in 3-4 sentences`;
+    const prompt = this.textareaValue;
+
     this.aiService.generateContent(prompt).subscribe(
-      (generatedContent: string) => {
-        console.log('Generated Content:', generatedContent);
+      (generatedContent: GeneratedContent) => {
+        console.log('Generated Content:', generatedContent.content);
+        this.generatedContent = generatedContent.content;
       },
       (error) => {
         console.error('Error:', error);

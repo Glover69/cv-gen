@@ -31,24 +31,23 @@
 
     <div [style.backgroundColor]="textColor" class="line flex h-[0.5px] w-full p-[0.5px] opacity-50"></div>
 
-
     <div class="main-body w-full flex flex-col gap-6">
 
-        @if (experienceFormData.profile) {
+        @if (formData.profile) {
             <div class="profile-section w-full flex flex-col items-start gap-1">
                 <span class="RC-Medium uppercase text-[#6C6C6C] text-sm">Profile</span>
     
-                <span class="text-[10px] RM-Medium text-black">{{experienceFormData.profile}}</span>
+                <span class="text-[10px] RM-Medium text-black">{{formData.profile}}</span>
             </div>
         }
         
 
-        @if (experienceFormData.skills) {
+        @if (formData.skills) {
             <div class="skills-section w-full flex flex-row items-start gap-1">
                 <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Skills</span>
     
                 <div class="text-[10px] RM-Medium grid grid-cols-3 gap-x-1 gap-y-1 text-black w-[70%]">
-                    @for (item of experienceFormData.skills; track $index) {
+                    @for (item of formData.skills; track $index) {
                         <span class="">{{item.name}}</span>
                     }
                     <!-- <span class="">Angular</span>
@@ -66,12 +65,12 @@
         }
 
     
-        @if (experienceFormData.experiences) {
+        @if (formData.experiences) {
             <div class="experience-section w-full flex flex-row items-start gap-1">
                 <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Experience</span>
     
                 <div class="right w-[70%] flex flex-col gap-4">
-                    @for (item of experienceFormData.experiences; track $index) {
+                    @for (item of formData.experiences; track $index) {
                         <div class=" flex flex-col gap-4">
                             <div class="top-right flex flex-col items-start justify-between">
     
@@ -120,13 +119,13 @@
         }
         
 
-        @if (educationFormData.education) {
+        @if (formData.education) {
             <div class="education-section w-full flex flex-row items-start gap-1">
                 <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Education</span>
     
                 <div class="flex flex-col w-[70%] gap-6">
 
-                    @for (item of educationFormData.education; track $index) {
+                    @for (item of formData.education; track $index) {
                         <div class="right w-full flex flex-col gap-4">
                             <div class="top-right flex flex-col items-start justify-between">
                                 <span [style.color]="textColor" class="RC-Medium text-sm">{{item.institution}}</span>
@@ -149,5 +148,7 @@
        
 
     </div>
+
+
 </section>
 

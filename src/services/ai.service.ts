@@ -14,7 +14,7 @@ export class AIService {
   constructor(private http: HttpClient) { }
 
 
-  generateContent(prompt: string) {
-    return this.http.post<string>(`${this.baseUrl}/api/ai/generate-content`, { prompt });
+  generateContent(prompt: any) {
+    return this.http.post<any>(`${this.baseUrl}/api/ai/generate-content`, { prompt });
   }
 }

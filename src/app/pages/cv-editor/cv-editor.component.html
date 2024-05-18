@@ -92,7 +92,7 @@
             <!-- <app-template-one class="template rounded-lg w-full h-fit border border-[#DEDEDE]" [formData]="formData"
                 [experienceFormData]="formData" [educationFormData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one> -->
 
-            <ng-container *ngComponentOutlet="templateOne; inputs: { formData, selectedImageUrl }"></ng-container>
+            <ng-container #templateHost *ngComponentOutlet="templateOne; inputs: { formData, selectedImageUrl }"></ng-container>
 
             <!-- <ng-container *ngComponentOutlet="templateComponent; injector: templateInjector"></ng-container> -->
 
