@@ -6,14 +6,14 @@
     </div>
 
 
-    <div class="w-full flex flex-col gap-6 pb-6">
+    <div class="w-full flex flex-col gap-12 pb-6">
         <div class="profile-input-group flex flex-col items-start gap-1 w-full">
             <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Profile</span>
             <textarea rows="6"
                 class=" resize-none focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular"
                 placeholder="What do you wanna say about yourself?" type="text" formControlName="profile"></textarea>
 
-            <button (click)="openAIDialog()"
+            <button type="button" (click)="openAIDialog()"
                 class="generate-ai-btn flex mt-6 items-center w-fit gap-2 rounded-lg bg-blue border border-[#D0D5DD] text-[#344054] py-3 px-6">
 
                 <img src="/assets/icons/ai-magic.svg" alt="">
@@ -43,9 +43,11 @@
             <!-- <input type="text" placeholder="Add skill" (keydown.enter)="addSkill($event)"> -->
             <div class="input-group flex flex-col items-start gap-1 w-full">
                 <span class="text-main-txt-color Raleway-Regular text-sm xl:text-base">Add Skill</span>
-                <input #skillInput (keydown.enter)="addSkill(skillInput.value)"
+                <input #skillInput
                     class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-[#667085] Inter-Regular "
                     placeholder="eg. Typescript" type="text">
+
+                    <button (click)="addSkill(skillInput.value, $event)">add skill</button>
             </div>
         </div>
 
@@ -198,7 +200,7 @@
                 class="reset-password-btn rounded-lg bg-white border flex-grow border-[#D0D5DD] text-[#344054] py-3 px-6 SF-Medium"
                 href="">Previous</button>
 
-            <button (click)="onContinueClick(2)"
+            <button type="submit" (click)="onContinueClick(2)"
                 class="logout-btn rounded-lg bg-[#EDF6FF] border flex-grow border-[#EDF6FF] text-blue py-3 px-6 SF-Medium"
                 href="">Save & Continue</button>
         </div>
@@ -212,14 +214,17 @@
             </div> -->
 
         <div
-            class="dialog-container border border-border-color w-3/4 h-2/4 bg-white rounded-xl relative z-[9999] flex flex-col overflow-hidden">
+            class="dialog-container border border-border-color w-3/4 xl:w-2/4 h-2/4 bg-white rounded-xl relative z-[9999] flex flex-col overflow-hidden">
             <div class="header w-full flex items-center justify-between border-b py-2 px-5 border-border-color">
-                <span class="SF-Medium text-lg text-main-txt-color">Generate</span>
+                <div class="flex items-start gap-9">
+                    <span class="SF-Medium text-lg text-main-txt-color">Generate</span>
+                    <span class="flex items-baseline gap-2"><span class="SF-Medium text-sm opacity-50 text-main-txt-color">Powered by</span> <img class="w-[3.25rem]" src="/assets/icons/gemini.svg" alt=""/></span>
+                </div>
 
                 <img (click)="openAIDialog()" class="cursor-pointer" src="/assets/icons/close.svg" alt="">
             </div>
 
-            <div class="content w-full p-5 h-[-webkit-fill-available] flex flex-row gap-5 overflow-hidden">
+            <!-- <div class="content w-full p-5 h-[-webkit-fill-available] flex flex-row gap-5 overflow-hidden">
 
                 <div class="left w-2/4 flex flex-col gap-5">
                     <textarea [ngModelOptions]="{standalone: true}" [(ngModel)]="textareaValue"
@@ -229,8 +234,8 @@
 
 
 
-                    <button (click)="generateContent()"
-                        class="generate-ai-btn flex items-center justify-center w-full gap-2 rounded-lg bg-blue border text-[#344054] py-3 px-6">
+                    <button [disabled]="!textareaValue" (click)="generateContent()"
+                        class="generate-ai-btn flex items-center disabled:opacity-20 justify-center w-full gap-2 rounded-lg bg-blue border text-[#344054] py-3 px-6">
 
                         <img src="/assets/icons/ai-magic.svg" alt="">
                         <span class="text-white Raleway-Medium">Generate</span>
@@ -239,11 +244,37 @@
 
                 @if (isContentGenerated) {
                 <div class="generated-content w-2/4 overflow-x-hidden overflow-y-auto animate-pulse rounded-lg py-3 px-4 2xl:py-4 2xl:px-5 bg-[#F5F5F5]">
-                    <span class="SF-Medium text-[#667085]">{{generatedContent}}</span>
+                    <span class="Consolas text-[#667085]">{{generatedContent}}</span>
                 </div>
                 }
 
-            </div>
+            </div> -->
+
+            <div class="flex flex-col h-[-webkit-fill-available] bg-gray-100">
+                <div class="flex-grow flex flex-col p-4 overflow-y-auto h-[20rem]" id="chatHistory">
+                    @for (message of messages; track $index) {
+                    <div [ngClass]="{
+                        'self-end bg-blue text-white': message.sender === 'user',
+                        'self-start bg-gray-200 animate': message.sender === 'bot' && message.animate
+                      }" class="chat-box Inter-Medium py-2.5 px-5 my-2 rounded-3xl max-w-xs">{{message.content}}</div>
+                    }
+                    @if (isGeneratedContentLoading) {
+                        <div class="self-start bg-gray-200 py-2.5 px-5 my-2 h-10 w-40 flex flex-shrink-0 rounded-3xl max-w-xs animate-pulse">
+    
+                        </div>
+                    }
+                  
+                </div>
+                
+                
+                <div class="flex p-4 flex-shrink-0 bg-white border-t border-gray-300">
+                  <input [ngModelOptions]="{standalone: true}" [(ngModel)]="textareaValue" (keydown.enter)="sendMessage()" 
+                         type="text" [placeholder]="placeholder" (focus)="onFocus($event)" (keydown)="onKeyDown($event)"
+                         class="flex-grow p-2 border Inter-Regular border-gray-300 rounded-md focus:outline-none" />
+                  <button (click)="sendMessage()" class="ml-2 py-2 px-5 Inter-SemiBold bg-blue text-white rounded-md">Send</button>
+                </div>
+              </div>
+              
         </div>
     </div>
     }

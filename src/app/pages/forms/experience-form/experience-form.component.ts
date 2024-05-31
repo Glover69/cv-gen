@@ -16,16 +16,22 @@ import {
 } from '@angular/forms';
 import { DataService } from '../../../../services/data.service';
 import { AIService } from '../../../../services/ai.service';
+import { CommonModule } from '@angular/common';
+import SplitType from 'split-type';
+import gsap from 'gsap';
+import TextPlugin from 'gsap/TextPlugin';
+import { ChatMessage } from '../../../../models/data.models';
+
+gsap.registerPlugin(TextPlugin);
 
 type GeneratedContent = {
   content: string;
-}
-
+};
 
 @Component({
   selector: 'app-experience-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './experience-form.component.html',
   styleUrl: './experience-form.component.scss',
 })
@@ -37,7 +43,11 @@ export class ExperienceFormComponent {
   instruction: string = ' (Press Tab to insert)';
   textareaValue: string = '';
   generatedContent: string = '';
+  isGeneratedContentLoading: boolean = false;
   isContentGenerated: boolean = false;
+  messages: ChatMessage[] = [];
+  userInput: string = '';
+  chatresponse: any;
 
   @Output() formDataChange = new EventEmitter<any>();
   @Output() continueClicked = new EventEmitter<{
@@ -50,21 +60,19 @@ export class ExperienceFormComponent {
     private dataService: DataService,
     private cdr: ChangeDetectorRef,
     private aiService: AIService
-  ) {
-  }
+  ) {}
 
   setRandomPlaceholder() {
     const placeholders = [
       'Type something here...',
       'Give me a brief bio about myself as a doctor',
-      // 'Your notes...',
-      // 'Write something...'
     ];
-  
+
     if (this?.formData?.jobTitle) {
       this.placeholder = `I am a ${this.formData.jobTitle}. Give me an interesting bio in 3-4 sentences`;
     } else {
-      this.placeholder = placeholders[Math.floor(Math.random() * placeholders.length)];
+      this.placeholder =
+        placeholders[Math.floor(Math.random() * placeholders.length)];
     }
   }
 
@@ -82,11 +90,10 @@ export class ExperienceFormComponent {
     }
   }
 
-
   openAIDialog(): void {
     this.isAIDialogOpen = !this.isAIDialogOpen;
+    console.log('AI open');
     this.setRandomPlaceholder();
-
   }
 
   updateFormData(newData: any): void {
@@ -105,13 +112,11 @@ export class ExperienceFormComponent {
     this.continueClicked.emit({ formData: this.formData, nextStep });
   }
 
-
   ngOnInit() {
     // this.initForm();
 
     // this.generateContent();
 
-    
     this.experienceForm = this.fb.group({
       profile: [''],
       skills: this.fb.array([]),
@@ -120,12 +125,10 @@ export class ExperienceFormComponent {
 
     this.experienceForm.patchValue({
       profile: this.formData.profile,
-      // skills: this.formData.skills,
-      // experiences: this.formData.experiences
     });
 
-     // Subscribe to form value changes
-     this.experienceForm.valueChanges.subscribe((value) => {
+    // Subscribe to form value changes
+    this.experienceForm.valueChanges.subscribe((value) => {
       // Emit the updated form data
       this.formDataChange.emit(value);
       this.cdr.detectChanges();
@@ -136,15 +139,13 @@ export class ExperienceFormComponent {
     console.log(initialExperiences);
     console.log(initialSkills);
 
-    if(initialSkills?.length >= 1){
+    if (initialSkills?.length >= 1) {
       this.setSkills(initialSkills);
     }
 
-    if(initialExperiences?.length >= 1){
+    if (initialExperiences?.length >= 1) {
       this.setExperiences(initialExperiences);
     }
-
-   
   }
 
   handleFormChange(formData: any): void {
@@ -154,7 +155,11 @@ export class ExperienceFormComponent {
   }
 
   generateContent() {
-    this.isContentGenerated = !this.isContentGenerated;
+    this.isContentGenerated = true;
+
+    // if(this.generatedContent.length > 0){
+    //   this.generatedContent
+    // }
 
     // const prompt = `I am a ${this.formData.jobTitle}. Give me an interesting bio in 3-4 sentences`;
     const prompt = this.textareaValue;
@@ -170,50 +175,95 @@ export class ExperienceFormComponent {
     );
   }
 
-  // initForm(): void {
-  //   this.experienceForm = this.fb.group({
-  //     profile: [''],
-  //     skills: this.fb.array([]),
-  //     experiences: this.fb.array([]),
-  //   });
-  // }
+  sendMessage() {
+    if (!this.textareaValue.trim()) return;
+
+    this.messages.push({ content: this.textareaValue, sender: 'user' });
+    const userMessage = this.textareaValue;
+    this.textareaValue = '';
+
+    this.isGeneratedContentLoading = true; // Set loading state to true
+
+    this.aiService.generateContent(userMessage).subscribe(
+      (response: GeneratedContent) => {
+        console.log('Generated Content:', response.content);
+        // this.messages.push({ content: response.content, sender: 'bot' });
+        this.isGeneratedContentLoading = false; // Set loading state to false
+
+        this.chatresponse = response.content;
+
+        const botMessage: ChatMessage = { content: response.content, sender: 'bot', animate: true };
+        this.messages.push(botMessage);
+
+         // Delay to allow the DOM to update before applying GSAP
+         setTimeout(() => {
+          const chatBoxElements = document.querySelectorAll('.chat-box.animate');
+          const lastChatBox = chatBoxElements[chatBoxElements.length - 1];
+          if (lastChatBox) {
+            const speed = 0.1; // Typing speed (lower value for faster typing)
+            gsap.fromTo(lastChatBox, 
+              { opacity: 0, y: 30 }, 
+              {
+                opacity: 1,
+                y: 0,
+                text: response.content,
+                duration: 1,
+                ease: 'power4',
+                onComplete: () => {
+                  // Remove the animate class after animation
+                  lastChatBox.classList.remove('animate');
+                }
+              });
+          }
+        }, 0); // Adjust delay if necessary
+
+        // if (response.content) {    
+        //   const speed = 0.1; // Typing speed (lower value for faster typing)
+
+        //   gsap.to('.chat-box', {
+        //     delay: 2,
+        //     text: this.chatresponse,
+        //     duration: this.chatresponse.length * speed,
+        //     ease: 'power1.in',
+        //   });
+        // }
+      },
+      (error) => {
+        console.error('Error:', error);
+        this.isGeneratedContentLoading = false; // Ensure loading state is reset on error
+      }
+    );
+  }
 
   setSkills(skills: string[]) {
     const skillFormArray = this.experienceForm.get('skills') as FormArray;
     if (skills) {
-      skills.forEach(skill => {
+      skills.forEach((skill) => {
         skillFormArray.push(this.fb.control(skill));
       });
     }
   }
 
-  // setExperiences(experiences: any[]){
-  //   const experiencesArray = this.experienceForm.get('experiences') as FormArray;
-  //   if(experiences) {
-  //     experiences.forEach(experience => {
-  //       experiencesArray.push(this.fb.control(experience));
-  //     })
-  //   }
-  // }
-
-
   setExperiences(experiences: any[]) {
-    const experienceFormArray = this.experienceForm.get('experiences') as FormArray;
+    const experienceFormArray = this.experienceForm.get(
+      'experiences'
+    ) as FormArray;
     if (experiences) {
-      experiences.forEach(exp => {
-        experienceFormArray.push(this.fb.group({
-          jobTitle: [exp.jobTitle],
-          company: [exp.company],
-          location: [exp.location],
-          type: [exp.type],
-          startDate: [exp.startDate],
-          endDate: [exp.endDate],
-          points: this.fb.array([]) // You might need to initialize this array as well if needed
-        }));
+      experiences.forEach((exp) => {
+        experienceFormArray.push(
+          this.fb.group({
+            jobTitle: [exp.jobTitle],
+            company: [exp.company],
+            location: [exp.location],
+            type: [exp.type],
+            startDate: [exp.startDate],
+            endDate: [exp.endDate],
+            points: this.fb.array([]), // You might need to initialize this array as well if needed
+          })
+        );
       });
     }
   }
-  
 
   get skills(): FormArray {
     return this.experienceForm.get('skills') as FormArray;
@@ -291,7 +341,7 @@ export class ExperienceFormComponent {
 
   @ViewChild('skillInput') skillInput!: ElementRef<HTMLInputElement>;
 
-  addSkill(skill: string): void {
+  addSkill(skill: string, event: Event): void {
     if (skill.trim()) {
       // const randomColor = this.getRandomColor();
 
@@ -307,6 +357,8 @@ export class ExperienceFormComponent {
     }
 
     this.skillInput.nativeElement.value = '';
+
+    event.stopPropagation();
   }
 
   removeSkill(index: number): void {

@@ -1,3 +1,9 @@
+export type ChatMessage = {
+  content: string;
+  sender: 'user' | 'bot';
+  animate?: boolean;
+}
+
 export interface Resume {
   firstname: string;
   lastname: string;
