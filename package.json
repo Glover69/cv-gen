@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
     "@auth0/auth0-angular": "^2.2.3",
+    "gsap": "^3.12.5",
     "rxjs": "~7.8.0",
     "split-type": "^0.3.4",
     "tslib": "^2.3.0",
