@@ -18,7 +18,7 @@ export class DataService {
     return this.http.post(`${this.baseUrl}/api/cv-generator/html-to-pdf`, { html: htmlContent }, { responseType: 'blob' });
   }
 
-  private formDataSubject = new BehaviorSubject<any>({});
+  public formDataSubject = new BehaviorSubject<any>({});
 
 
   updateFormData(formData: any): void {

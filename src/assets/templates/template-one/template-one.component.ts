@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inje
 import { DataService } from '../../../services/data.service';
 import { Education, EducationGroup, ExperienceGroup, Resume } from '../../../models/data.models';
 import { ColorService } from '../../../services/color.service';
+import { CommonModule } from '@angular/common';
 // import jspdf from 'jspdf';
 // import html2canvas from 'html2canvas';
 // import print from 'print-js'
@@ -11,7 +12,7 @@ import { ColorService } from '../../../services/color.service';
   selector: 'app-template-one',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './template-one.component.html',
   styleUrl: './template-one.component.scss'
 })
@@ -51,6 +52,8 @@ export class TemplateOneComponent implements OnInit, OnChanges {
     });
 
     console.log('formData in ngOnInit:', this.formData);
+
+    this.cdr.detectChanges();
   }
 
 

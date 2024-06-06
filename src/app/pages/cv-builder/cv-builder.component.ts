@@ -100,9 +100,9 @@ export class CvBuilderComponent {
   
   
 
-  selectTemplate(template: Type<any>): void {
-    this.templateSelected.emit(template);
-  }
+  // selectTemplate(template: Type<any>): void {
+  //   this.templateSelected.emit(template);
+  // }
   
 
   ngOnInit() {

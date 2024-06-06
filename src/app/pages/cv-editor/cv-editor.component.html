@@ -92,8 +92,9 @@
             <!-- <app-template-one class="template rounded-lg w-full h-fit border border-[#DEDEDE]" [formData]="formData"
                 [experienceFormData]="formData" [educationFormData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one> -->
 
-            <ng-container #templateHost *ngComponentOutlet="templateOne; inputs: { formData, selectedImageUrl }"></ng-container>
-
+            <ng-container *ngComponentOutlet="templateOne; inputs: { formData, selectedImageUrl }"></ng-container>
+            <!-- <div appDynamicTemplate></div> -->
+            <!-- <ng-container appDynamicTemplate></ng-container> -->
             <!-- <ng-container *ngComponentOutlet="templateComponent; injector: templateInjector"></ng-container> -->
 
 
@@ -107,7 +108,7 @@
 
         </div>
 
-        <div class="dialog-container w-[90%] h-4/5 bg-white rounded-xl relative z-[9999] p-6">
+        <div class="dialog-container w-[90%] 3xl:w-[85%] h-4/5 bg-white rounded-xl relative z-[9999] p-6">
             <img class="absolute right-10 top-6 cursor-pointer" (click)="openTemplateDialog()"
                 src="/assets/icons/close.svg" alt="">
             <app-cv-builder [formData]="formData" [experienceFormData]="formData" [educationFormData]="formData"

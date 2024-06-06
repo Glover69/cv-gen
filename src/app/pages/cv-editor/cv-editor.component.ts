@@ -1,4 +1,7 @@
 import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
@@ -7,6 +10,7 @@ import {
   Injector,
   Input,
   Output,
+  SimpleChanges,
   Type,
   ViewChild,
   ViewContainerRef,
@@ -33,6 +37,7 @@ import { TemplateTwoComponent } from '../../../assets/templates/template-two/tem
 import { AuthService, User } from '@auth0/auth0-angular';
 import { AuthUserInfo } from '../../../models/data.models';
 import { map, Observable } from 'rxjs';
+import { DynamicTemplateDirective } from '../../../directives/dynamic-template.directive';
 
 type Steps = {
   icon: string;
@@ -42,6 +47,7 @@ type Steps = {
 
 @Component({
   selector: 'app-cv-editor',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
@@ -56,12 +62,13 @@ type Steps = {
     RouterOutlet,
     RouterModule,
     EducationFormComponent,
-    NgComponentOutlet
+    NgComponentOutlet,
+    DynamicTemplateDirective
   ],
   templateUrl: './cv-editor.component.html',
   styleUrl: './cv-editor.component.scss',
 })
-export class CvEditorComponent {
+export class CvEditorComponent implements AfterViewChecked {
   user!: User | null | undefined;
   currentStepIndex = 0;
   selectedFileUrl: string | null = null;
@@ -71,7 +78,8 @@ export class CvEditorComponent {
   resumeForm!: FormGroup;
   // @ViewChild('templateHost', { read: ViewContainerRef })
   // templateHost!: ViewContainerRef;
-  @ViewChild('templateHost', { read: ViewContainerRef }) templateHost: ViewContainerRef;
+  // @ViewChild('templateHost', { read: ViewContainerRef }) templateHost: ViewContainerRef;
+  @ViewChild(DynamicTemplateDirective, { static: true }) templateHost!: DynamicTemplateDirective;
 
   @Output() templateSelected = new EventEmitter<Type<any>>();
   selectedTemplate: Type<any> | null = null;
@@ -91,10 +99,10 @@ export class CvEditorComponent {
     this.isTemplateDialogOpen = !this.isTemplateDialogOpen;
   }
 
-  onTemplateSelected(event: { templateComponent: any; bindings: any }): void {
-    // const { templateComponent, bindings } = event;
-    this.loadTemplate(event);
-  }
+  // onTemplateSelected(event: { templateComponent: any; bindings: any }): void {
+  //   // const { templateComponent, bindings } = event;
+  //   this.loadTemplate(event);
+  // }
 
   templateOne: any;
   templateComponent: Type<any> = TemplateTwoComponent;
@@ -121,8 +129,16 @@ export class CvEditorComponent {
     @Inject(DOCUMENT) public document: Document,
   ) {
      this.templateOne = TemplateOneComponent;
-     this.templateHost = {} as ViewContainerRef; // Initialize templateHost here
+    //  this.templateHost = {} as ViewContainerRef; // Initialize templateHost here
 
+  }
+
+  ngAfterViewChecked() {
+    if (!this.templateHost) {
+      console.error('Template host is not defined', this.templateHost);
+    } else {
+      console.log('Template host is defined:', this.templateHost);
+    }
   }
 
   // selectTemplate(templateComponent: Type<any>, bindings: any): void {
@@ -130,16 +146,31 @@ export class CvEditorComponent {
   // }
 
   loadTemplate(event: { templateComponent: any; bindings: any }): void {
+
+    if (!this.templateHost) {
+      console.error('Template host is not available');
+      return;
+    }
+
     const { templateComponent, bindings } = event;
+    console.log(templateComponent, bindings);
+
+  
     // Clear previous component
-    this.templateHost.clear();
+    // this.templateHost.clear();
+    const viewContainerRef = this.templateHost.viewContainerRef;
+    viewContainerRef.clear();
 
     // Create component factory
-    const componentFactory =
-      this.resolver.resolveComponentFactory(templateComponent);
+    // const componentFactory =
+    //   this.resolver.resolveComponentFactory(templateComponent);
+
+      const componentFactory = this.resolver.resolveComponentFactory(templateComponent);
+
 
     // Create component instance
-    const componentRef = this.templateHost.createComponent(componentFactory);
+    // const componentRef = this.templateHost.createComponent(componentFactory);
+    const componentRef = viewContainerRef.createComponent(componentFactory);
 
     console.log('Component Instance:', componentRef.instance);
 
@@ -148,9 +179,25 @@ export class CvEditorComponent {
     Object.keys(bindings).forEach((key) => {
       instance[key] = bindings[key];
     });
+
+    // this.subscribeToFormDataChanges(instance);
+
+    // Trigger change detection
+    this.cdr.detectChanges();
   }
 
   formData: any;
+  
+
+  // subscribeToFormDataChanges(instance: any) {
+  //   // Assuming formData is an Observable or a Subject
+  //   // You might need to adapt this depending on how your form data is implemented
+  //   this.dataService.formDataSubject.subscribe(data => {
+  //     instance.formData = data;
+  //     this.cdr.detectChanges();
+  //   });
+  // }
+
 
   handleContinueClick(event: { formData: any; nextStep: number }): void {
     this.formData = event.formData;
@@ -158,10 +205,20 @@ export class CvEditorComponent {
     console.log(this.formData, this.currentStepIndex);
   }
 
+  // handleFormDataChange(formData: any): void {
+  //   const updatedFormData = { ...this.dataService.getFormData(), ...formData, ...this.educationFormData, ...this.experienceFormData, };
+  //   this.dataService.updateFormData(updatedFormData);
+  //   this.cdr.detectChanges(); // Manually trigger change detection
+
+  // }
+
   handleFormDataChange(formData: any): void {
-    const updatedFormData = { ...this.dataService.getFormData(), ...formData, ...this.educationFormData, ...this.experienceFormData, };
+    const currentFormData = this.dataService.getFormData();
+    const updatedFormData = { ...currentFormData, ...formData };
     this.dataService.updateFormData(updatedFormData);
+    // this.cdr.detectChanges(); // Manually trigger change detection
   }
+  
 
   ngOnInit() {
     this.dataService.getFormData().subscribe((newData) => {
