@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
   selector: '[appDynamicTemplate]',
@@ -6,7 +6,7 @@ import { Directive, ViewContainerRef } from '@angular/core';
 })
 export class DynamicTemplateDirective {
 
-  constructor(public viewContainerRef: ViewContainerRef) {}
+  constructor(public viewContainerRef: ViewContainerRef, public cdr: ChangeDetectorRef) {}
 
 
 }

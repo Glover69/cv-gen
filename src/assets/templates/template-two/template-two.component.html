@@ -1,154 +1,143 @@
 <section class="main-container print_area w-full h-fit p-6 flex flex-col gap-8">
     <div class="header flex items-end justify-between">
+        <div class="left flex flex-col items-start">
+            <span [style.color]="textColor" class="SG-Bold text-xl">{{formData.firstname}} {{formData.lastname}}</span>
+            <span class="SG-Regular subtxt text-sm">{{formData.jobTitle}}</span>
+        </div>
 
-        <!-- <div class="left flex items-center gap-2">
-            <div [style.backgroundImage]="selectedImageUrl ? 'url(' + selectedImageUrl + ')' : 'url(' + customerProfilePhoto + ')'" [style.backgroundColor]="textColor" class="w-9 h-9 rounded-full bg-cover bg-center bg-no-repeat">
-                
-            </div>
-
-            <div class="flex flex-col items-start">
-                <span [style.color]="textColor" class="RC-Bold uppercase text-xl">{{formData.firstname}} {{formData.lastname}}</span>
-                <span class="RM-Medium text-[#6F7588] subtxt uppercase text-sm">{{formData.jobTitle}}</span>
-            </div>
-        </div> -->
-        
 
         <div class="right flex flex-col items-end">
-            <a href="{{formData.website}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">{{formData.website}}</a>
+            <a href="{{formData.website}}" class="SG-Medium text-[#646C86] underline subtxt text-[10px]">{{formData.website}}</a>
 
             @if (formData.linkedIn) {
-                <a href="{{formData.linkedIn}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">linkedin.com</a>
+                <a href="{{formData.linkedIn}}" class="SG-Medium text-[#646C86] underline subtxt text-[10px]">linkedin.com</a>
             }
 
             @if (formData.github) {
-                <a href="{{formData.github}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">github.com</a>
+                <a href="{{formData.github}}" class="SG-Medium text-[#646C86] underline subtxt text-[10px]">github.com</a>
             }
 
-            <a href="{{formData.email}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">{{formData.email}}</a>
-            <span class="RM-Regular subtxt text-[#646C86] text-[10px]">{{formData.phone}}</span>
+            <a href="{{formData.email}}" class="SG-Medium text-[#646C86] underline subtxt text-[10px]">{{formData.email}}</a>
+            <span class="SG-Medium subtxt text-[#646C86] text-[10px]">{{formData.phone}}</span>
         </div>
     </div>
 
-    <div [style.backgroundColor]="textColor" class="line flex h-[0.5px] w-full p-[0.5px] opacity-50"></div>
 
-    <div class="main-body w-full flex flex-col gap-6">
+    <div class="main-body flex flex-col gap-6">
 
-        @if (formData.profile) {
-            <div class="profile-section w-full flex flex-col items-start gap-1">
-                <span class="RC-Medium uppercase text-[#6C6C6C] text-sm">Profile</span>
-    
-                <span class="text-[10px] RM-Medium text-black">{{formData.profile}}</span>
-            </div>
-        }
-        
-
-        @if (formData.skills) {
-            <div class="skills-section w-full flex flex-row items-start gap-1">
-                <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Skills</span>
-    
-                <div class="text-[10px] RM-Medium grid grid-cols-3 gap-x-1 gap-y-1 text-black w-[70%]">
-                    @for (item of formData.skills; track $index) {
-                        <span class="">{{item.name}}</span>
-                    }
-                    <!-- <span class="">Angular</span>
-                    <span class="">React.js</span>
-                    <span class="">HTML5</span>
-                    <span class="">CSS/SCSS</span>
-                    <span class="">TailwindCSS</span>
-                    <span class="">Node.JS</span>
-                    <span class="">NextJS</span>
-                    <span class="">TypeScript</span> -->
-    
-    
-                </div>
-            </div>
-        }
-
-    
         @if (formData.experiences) {
-            <div class="experience-section w-full flex flex-row items-start gap-1">
-                <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Experience</span>
+            <div class="experience-section flex items-start justify-between">
+                <div class="left w-[30%]">
+                    <span [style.color]="textColor" class="SG-Bold text-sm">Experience</span>
+                </div>
     
-                <div class="right w-[70%] flex flex-col gap-4">
+                <div class="right w-[70%] flex flex-col gap-8">
                     @for (item of formData.experiences; track $index) {
-                        <div class=" flex flex-col gap-4">
-                            <div class="top-right flex flex-col items-start justify-between">
-    
+                        <div class="w-full flex flex-col gap-4">
+                            <div class="top-right flex items-start justify-between">
                                 @if (item.jobTitle || item.company) {
-                                    <div class="header flex flex-row-reverse items-center gap-1 flex-shrink-0">
-                                        <span [style.color]="textColor" class="RC-Medium text-sm">{{item.company}}</span>
-                                        <span [style.backgroundColor]="textColor"
-                                            class="line w-[1px] h-3 bg-[#6F7588]"></span>
-                                        <span [style.color]="textColor" class="RC-Medium flex-shrink-0 text-xs">{{item.jobTitle}}</span>
+                                    <div class="header w-[60%] flex-wrap flex flex-col items-start flex-shrink-0">
+                                        <span [style.color]="textColor" class="SG-Bold text-sm">{{item.company}}</span>
+                                        <span class="SG-Regular flex-shrink-0 text-[10px]">{{item.jobTitle}}</span>
+                                        @if (item.type) {
+                                            <span class="SG-Regular text-[#646C86] text-[10px]">{{item.type}}</span>
+                                        }
                                     </div>
                                 }
-                                
+                               
             
-                                @if (item.startDate || item.endDate || item.type) {
-                                <div class="flex flex-row items-center gap-1 flex-shrink-0">
-                                    <!-- <span class="Roboto-Medium text-[10px] text-[#9FA3AE]">{{item.location}}</span>
-                                    <span class="line w-[1px] h-3 bg-[#9FA3AE]"></span> -->
-                                    <span class="Roboto-Medium flex-shrink-0 text-[10px] text-[#9FA3AE]">{{item.type}}</span>
-                                    <span class="line w-[1px] h-3 bg-[#9FA3AE]"></span>
-                                    @if (item.startDate || item.endDate) {
-                                        <span class="Roboto-Medium flex-shrink-0 text-[#9FA3AE] text-[10px]">{{item.startDate}} - {{item.endDate}}</span>
+                                <div class="header flex flex-col items-end flex-shrink-0">
+                                    @if (item.startDate || item.endDate || item.type) {
+                                        <span class="SG-Regular flex-shrink-0 text-[10px]">{{item.startDate}} - {{item.endDate}}</span>
                                     }
                                 </div>
-                            }
+
             
                             </div>
             
                             @if (item.points.length > 0) {
-                                <div class="bottom-right text-[#6F7588] list-none relative flex flex-col items-start gap-1">
-                                    <span class="Roboto-Regular text-[10px]">During this time, I gained;</span>
-        
+                                <div class="bottom-right list-none relative flex flex-col items-start gap-1">
+    
                                     <!-- Points -->
                                     @for (points of item.points; track $index) {
-                                        <li class="Roboto-Regular pl-3 flex-shrink-0 flex-wrap text-[10px] text-left">{{points}}</li>
+                                        <li class="SG-Regular pl-3 flex flex-shrink-0 flex-wrap text-[10px] text-left">{{points}}</li>
                                     }
-                                    <!-- <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">Collaborated with cross-functional teams to create wireframes, prototypes, and high-fidelity mockups</li>
-                                    <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">Facilitated design reviews and user testing sessions to gather feedback and improve design solutions</li> -->
+                                
                                 </div>
                             }
                             
                         </div>
                     }
                 </div>
-                
+  
+    
             </div>
         }
         
 
-        @if (formData.education) {
-            <div class="education-section w-full flex flex-row items-start gap-1">
-                <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Education</span>
-    
-                <div class="flex flex-col w-[70%] gap-6">
 
+        @if (formData.education) {
+            <div class="education-section flex items-start justify-between">
+                <div class="left w-[30%]">
+                    <span [style.color]="textColor" class="SG-Bold text-sm">Education</span>
+                </div>
+
+                <div class="right w-[70%] flex flex-col gap-8">
                     @for (item of formData.education; track $index) {
-                        <div class="right w-full flex flex-col gap-4">
-                            <div class="top-right flex flex-col items-start justify-between">
-                                <span [style.color]="textColor" class="RC-Medium text-sm">{{item.institution}}</span>
+                        <div class="w-full flex flex-col gap-4">
+                            <div class="top-right flex items-start justify-between">
+                                <div class="header w-[60%] flex-wrap flex flex-col items-start flex-shrink-0">
+                                    <span [style.color]="textColor" class="SG-Bold text-sm">{{item.institution}}</span>
+                                    <span class="SG-Regular flex-shrink-0 text-[10px]">{{item.certification}}, {{item.fieldOfStudy}}</span>
+                                </div>
             
-                                <span class="Roboto-Medium text-[10px] text-[#4E4E4E]">{{item.certification}}, {{item.fieldOfStudy}}</span>
-            
-                                <span class="Roboto-Medium flex-shrink-0 text-[#9FA3AE] text-[10px]">{{item.startDate}} - {{item.endDate}}</span>
+                                <span class="SG-Regular flex-shrink-0 text-[10px]">{{item.startDate}} - {{item.endDate}}</span>
             
                             </div>
+            
+                            <!-- <div class="bottom-right list-none relative flex flex-col items-start gap-1">
+                                <li class="SG-Regular pl-3 flex-shrink-0 text-[10px] text-left">Intensive, full-time program that provided hands-on training in user-centered design, prototyping, and visual design</li>
+                                <li class="SG-Regular pl-3 flex-shrink-0 text-[10px] text-left">Completed several design projects, including designing a mobile app for mental health, a website for a local non-profit, and an e-commerce platform for a start-up</li>
+                            </div> -->
                         </div>
                     }
-                    
                 </div>
-    
                 
     
-                
             </div>
         }
-       
+
+        @if (formData.skills) {
+            <div class="education-section flex items-start justify-between">
+                <div class="left w-[30%]">
+                    <span [style.color]="textColor" class="SG-Bold text-sm">Skills & Tools</span>
+                </div>
+    
+                <div class="right w-[70%] flex flex-col gap-4">
+                    <div class="top-right flex items-start justify-between">
+                        <div class="header flex flex-col items-start flex-wrap">
+                            <span [style.color]="textColor" class="SG-Bold text-sm">Skills</span>
+                            <!-- <span class="SG-Regular flex-shrink-0 text-[10px]">User Research, Interaction Design, Visual Design, Communication and Collaboration, User Testing, Adaptability, Continuous Learning</span> -->
+                            @if (formData.skills) {
+                                <span class="SG-Regular flex-shrink-0 text-[10px]">{{skillsAsString}}</span>
+                            }
+                        </div>
+    
+                    </div>
+    
+                    <!-- <div class="top-right flex items-start justify-between">
+                        <div class="header flex flex-col items-start flex-wrap">
+                            <span [style.color]="textColor" class="SG-Bold text-sm">Tools</span>
+                            <span class="SG-Regular flex-shrink-0 text-[10px]">Sketch, Figma, Figjam  , Adobe Creative Suite  , InVision, Axure, Marvel App, Balsamiq, Webflow, UserTesting</span>
+                        </div>
+    
+                    </div> -->
+                </div>
+    
+            </div>
+        }
+        
 
     </div>
-
-
 </section>
 

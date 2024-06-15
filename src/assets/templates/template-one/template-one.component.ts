@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnChanges, OnInit, SimpleChanges, Type, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, NgZone, OnChanges, OnInit, SimpleChanges, Type, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service';
 import { Education, EducationGroup, ExperienceGroup, Resume } from '../../../models/data.models';
 import { ColorService } from '../../../services/color.service';
@@ -20,7 +20,7 @@ export class TemplateOneComponent implements OnInit, OnChanges {
 
  
 
-  constructor(private dataService: DataService, private colorService: ColorService, private cdr: ChangeDetectorRef, private injector: Injector){
+  constructor(private dataService: DataService, private ngZone: NgZone, private colorService: ColorService, private cdr: ChangeDetectorRef, private injector: Injector){
   }
   @Input() formData!: Resume;
   @Input() experienceFormData!: ExperienceGroup;
@@ -53,16 +53,36 @@ export class TemplateOneComponent implements OnInit, OnChanges {
 
     console.log('formData in ngOnInit:', this.formData);
 
-    this.cdr.detectChanges();
+    this.ngZone.run(() => {
+      this.cdr.detectChanges();
+    });
+  }
+
+
+  onDataChange() {
+    console.log('Form Data changed:', this.formData);
+    this.triggerChangeDetection();
   }
 
 
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('formData in ngOnChanges:', this.formData);
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log('formData in ngOnChanges:', this.formData);
+  // }
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['formData']) {
+      console.log('Form Data changed:', changes['formData'].currentValue);
+    }
   }
 
 
+  private triggerChangeDetection() {
+    this.ngZone.run(() => {
+      this.cdr.detectChanges();
+    });
+  }
 
   exportToPdf(): void {
     const htmlContent = document.getElementById('cvContent')?.innerHTML;

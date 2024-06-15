@@ -187,35 +187,38 @@ export class ExperienceFormComponent {
     this.aiService.generateContent(userMessage).subscribe(
       (response: GeneratedContent) => {
         console.log('Generated Content:', response.content);
-        // this.messages.push({ content: response.content, sender: 'bot' });
+        this.messages.push({ content: response.content, sender: 'bot' });
         this.isGeneratedContentLoading = false; // Set loading state to false
+        console.log(this.isGeneratedContentLoading);
+        this.scrollToBottom();
+        this.cdr.detectChanges(); // Ensure change detection is triggered
 
-        this.chatresponse = response.content;
+        // this.chatresponse = response.content;
 
-        const botMessage: ChatMessage = { content: response.content, sender: 'bot', animate: true };
-        this.messages.push(botMessage);
+        // const botMessage: ChatMessage = { content: response.content, sender: 'bot', animate: false };
+        // this.messages.push(botMessage);
 
          // Delay to allow the DOM to update before applying GSAP
-         setTimeout(() => {
-          const chatBoxElements = document.querySelectorAll('.chat-box.animate');
-          const lastChatBox = chatBoxElements[chatBoxElements.length - 1];
-          if (lastChatBox) {
-            const speed = 0.1; // Typing speed (lower value for faster typing)
-            gsap.fromTo(lastChatBox, 
-              { opacity: 0, y: 30 }, 
-              {
-                opacity: 1,
-                y: 0,
-                text: response.content,
-                duration: 1,
-                ease: 'power4',
-                onComplete: () => {
-                  // Remove the animate class after animation
-                  lastChatBox.classList.remove('animate');
-                }
-              });
-          }
-        }, 0); // Adjust delay if necessary
+        //  setTimeout(() => {
+        //   const chatBoxElements = document.querySelectorAll('.chat-box.animate');
+        //   const lastChatBox = chatBoxElements[chatBoxElements.length - 1];
+        //   if (lastChatBox) {
+        //     const speed = 0.1; // Typing speed (lower value for faster typing)
+        //     gsap.fromTo(lastChatBox, 
+        //       { opacity: 0, y: 30 }, 
+        //       {
+        //         opacity: 1,
+        //         y: 0,
+        //         text: response.content,
+        //         duration: 1,
+        //         ease: 'power4',
+        //         onComplete: () => {
+        //           // Remove the animate class after animation
+        //           lastChatBox.classList.remove('animate');
+        //         }
+        //       });
+        //   }
+        // }, 0); // Adjust delay if necessary
 
         // if (response.content) {    
         //   const speed = 0.1; // Typing speed (lower value for faster typing)
@@ -233,6 +236,15 @@ export class ExperienceFormComponent {
         this.isGeneratedContentLoading = false; // Ensure loading state is reset on error
       }
     );
+  }
+
+  scrollToBottom() {
+    const chatHistory = document.getElementById('chatHistory');
+    if (chatHistory) {
+      setTimeout(() => {
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+      }, 100); // Add a slight delay to ensure it scrolls after the new message is rendered
+    }
   }
 
   setSkills(skills: string[]) {

@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { ColorService } from '../../../services/color.service';
 import { CvEditorComponent } from '../cv-editor/cv-editor.component';
 import { TemplateTwoComponent } from '../../../assets/templates/template-two/template-two.component';
+import { TemplateSelectionService } from '../../../services/template-selection.service';
 
 type ColorGroup = {
   colorName: string;
@@ -45,6 +46,7 @@ export class CvBuilderComponent {
     private colorService: ColorService,
     private router: Router,
     private cvEditor: CvEditorComponent,
+    private templateSelectionService: TemplateSelectionService
   ) {
 
     // this.templateInjector = Injector.create({
@@ -66,12 +68,57 @@ export class CvBuilderComponent {
   @Input() educationFormData: any;
   @Input() selectedImageUrl!: string;
 
-  @Output() templateSelected = new EventEmitter<any>();
+  // @Output() templateSelected = new EventEmitter<any>();
 
-  onTemplateSelected(templateName: string): void {
-    let templateComponent: any;
-    let bindings: any = {};
+  // onTemplateSelected(templateName: string): void {
+  //   let templateComponent: any;
+  //   // let bindings: any = {};
   
+  //   switch (templateName) {
+  //     case 'template-one':
+  //       templateComponent = TemplateOneComponent;
+  //       break;
+  //     case 'template-two':
+  //       templateComponent = TemplateTwoComponent;
+  //       break;
+  //     case 'template-three':
+  //       templateComponent = TemplateOneComponent; // Corrected assignment
+  //       break;
+  //     default:
+  //       templateComponent = TemplateOneComponent; // Default template
+  //       break;
+  //   }
+  
+  //   // Assign bindings (common for all templates)
+  //   // bindings = {
+  //   //   formData: this.formData,
+  //   //   experienceFormData: this.formData,
+  //   //   educationFormData: this.formData,
+  //   //   selectedImageUrl: this.selectedImageUrl,
+  //   // };
+
+  //   this.templateSelectionService.selectTemplateSecond({
+  //     templateComponent: templateComponent
+  //   })
+
+  //   // Emit the selected template through the service
+  //   // this.templateSelectionService.selectTemplate({
+  //   //   templateComponent: templateComponent,
+  //   //   bindings: {
+  //   //     formData: this.formData,
+  //   //     selectedImageUrl: this.selectedImageUrl,
+  //   //     backgroundColor: this.selectedBackgroundColor,
+  //   //     mainTextColor: this.selectedHeaderColor
+  //   //   }
+  //   // });
+
+  
+  //   // this.templateSelected.emit({ templateComponent, bindings });
+  // }
+  
+  onTemplateSelected(templateName: string) {
+    let templateComponent: any;
+
     switch (templateName) {
       case 'template-one':
         templateComponent = TemplateOneComponent;
@@ -80,24 +127,15 @@ export class CvBuilderComponent {
         templateComponent = TemplateTwoComponent;
         break;
       case 'template-three':
-        templateComponent = TemplateOneComponent; // Corrected assignment
+        templateComponent = TemplateTwoComponent;
         break;
       default:
-        templateComponent = TemplateOneComponent; // Default template
+        templateComponent = TemplateOneComponent; // Default to TemplateOneComponent
         break;
     }
-  
-    // Assign bindings (common for all templates)
-    bindings = {
-      formData: this.formData,
-      experienceFormData: this.formData,
-      educationFormData: this.formData,
-      selectedImageUrl: this.selectedImageUrl,
-    };
-  
-    this.templateSelected.emit({ templateComponent, bindings });
+
+    this.templateSelectionService.selectTemplate({ templateComponent });
   }
-  
   
 
   // selectTemplate(template: Type<any>): void {

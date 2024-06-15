@@ -267,7 +267,7 @@
                     @for (message of messages; track $index) {
                     <div [ngClass]="{
                         'self-end bg-blue text-white': message.sender === 'user',
-                        'self-start bg-gray-200 animate': message.sender === 'bot' && message.animate
+                        'self-start bg-gray-200 animate': message.sender === 'bot'
                       }" class="chat-box Raleway-Medium py-2.5 px-5 my-2 rounded-3xl max-w-xs">{{message.content}}</div>
                     }
                     @if (isGeneratedContentLoading) {
@@ -275,7 +275,6 @@
     
                         </div>
                     }
-                  
                 </div>
                 
                 

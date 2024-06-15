@@ -34,6 +34,8 @@ export class TemplateTwoComponent implements OnInit, OnChanges {
   }
 
   textColor: string = '';
+  skillsAsString: string = '';
+
 
   ngOnInit() {
     const storedTextColor = localStorage.getItem('textColor');
@@ -48,8 +50,12 @@ export class TemplateTwoComponent implements OnInit, OnChanges {
     });
 
     console.log('formData in ngOnInit:', this.formData);
+    this.skillsAsString = this.formData.skills.map(skill => skill.name).join(', ');
+
   }
 
+
+  
 
 
   ngOnChanges(changes: SimpleChanges): void {
