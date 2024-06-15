@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Inject,
   Injector,
   Input,
@@ -30,6 +31,11 @@ import { DataService } from '../../../services/data.service';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { DynamicTemplateDirective } from '../../../directives/dynamic-template.directive';
 import { TemplateSelectionService } from '../../../services/template-selection.service';
+// import * as html2pdf from 'html2pdf.js';
+
+declare var html2pdf: any;
+
+
 
 type Steps = {
   icon: string;
@@ -71,6 +77,37 @@ export class CvEditorComponent {
   resumeForm!: FormGroup;
   selectedTemplate: Type<any> | null = null;
   selectedImageUrl: string = '';
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
+  
+
+
+  generatePDF() {
+
+    const element = this.pdfContent.nativeElement;
+
+    // Temporarily apply a transformation for PDF generation
+    element.style.transform = 'scale(1)'; // Scale content by 1.5 times
+    element.style.transformOrigin = 'top left'; // Ensure scaling from the top left corner
+
+    const options = {
+      margin: 0.5,
+      filename: 'resume.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      // html2canvas: { scale: 5 },
+      html2canvas: { 
+        scale: 2, // Higher scale means better quality
+        logging: false, // Disable logging for performance
+        useCORS: true // Enable cross-origin resource sharing
+      },
+      enableLinks: true,
+      jsPDF: { unit: 'in', format: 'A4', orientation: 'portrait' }
+    };
+
+    html2pdf().from(this.pdfContent.nativeElement).set(options).save().then(() => {
+      // Reset the transformation after generating the PDF
+      element.style.transform = 'none';
+    });;
+  }
 
   onImageSelected(imageUrl: string): void {
     this.selectedImageUrl = imageUrl;

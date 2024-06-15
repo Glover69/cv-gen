@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 })
 export class NavbarComponent {
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
-
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
   showButton: boolean = false;
 
   ngOnInit(): void {
