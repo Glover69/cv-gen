@@ -88,15 +88,7 @@
 
         <div class="right w-full grid overflow-y-auto py-12 lg:px-10 xl:px-20 2xl:px-28 h-[100%]">
 
-            <!-- <div #templateHost class="hidden"></div> -->
-            <!-- <app-template-one class="template rounded-lg w-full h-fit border border-[#DEDEDE]" [formData]="formData"
-                [experienceFormData]="formData" [educationFormData]="formData" [selectedImageUrl]="selectedImageUrl"></app-template-one> -->
-
             <ng-container *ngComponentOutlet="selectedTemplate; injector: dynamicComponentInjector() inputs: { formData, selectedImageUrl }"></ng-container>
-            <!-- <div appDynamicTemplate></div> -->
-            <!-- <ng-container appDynamicTemplate></ng-container> -->
-            <!-- <ng-container *ngComponentOutlet="templateComponent; injector: templateInjector"></ng-container> -->
-
 
         </div>
     </div>

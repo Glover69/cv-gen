@@ -1,12 +1,6 @@
 import {
   Component,
   Injector,
-  EventEmitter,
-  Output,
-  ViewChild,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  Type,
   Input,
 } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
@@ -45,78 +39,17 @@ export class CvBuilderComponent {
     public injector: Injector,
     private colorService: ColorService,
     private router: Router,
-    private cvEditor: CvEditorComponent,
     private templateSelectionService: TemplateSelectionService
   ) {
-
-    // this.templateInjector = Injector.create({
-    //   providers: [
-    //     { provide: 'formData', useValue: this.formData },
-    //     { provide: 'experienceFormData', useValue: this.experienceFormData },
-    //     { provide: 'educationFormData', useValue: this.educationFormData },
-    //     { provide: 'selectedImageUrl', useValue: this.selectedImageUrl }
-    //   ],
-    //   parent: this.injector
-    // });
   }
-
-  // templateComponent: Type<any> = TemplateOneComponent;
-  // templateInjector: Injector;
 
   @Input() formData: any;
   @Input() experienceFormData: any;
   @Input() educationFormData: any;
   @Input() selectedImageUrl!: string;
 
-  // @Output() templateSelected = new EventEmitter<any>();
-
-  // onTemplateSelected(templateName: string): void {
-  //   let templateComponent: any;
-  //   // let bindings: any = {};
   
-  //   switch (templateName) {
-  //     case 'template-one':
-  //       templateComponent = TemplateOneComponent;
-  //       break;
-  //     case 'template-two':
-  //       templateComponent = TemplateTwoComponent;
-  //       break;
-  //     case 'template-three':
-  //       templateComponent = TemplateOneComponent; // Corrected assignment
-  //       break;
-  //     default:
-  //       templateComponent = TemplateOneComponent; // Default template
-  //       break;
-  //   }
-  
-  //   // Assign bindings (common for all templates)
-  //   // bindings = {
-  //   //   formData: this.formData,
-  //   //   experienceFormData: this.formData,
-  //   //   educationFormData: this.formData,
-  //   //   selectedImageUrl: this.selectedImageUrl,
-  //   // };
-
-  //   this.templateSelectionService.selectTemplateSecond({
-  //     templateComponent: templateComponent
-  //   })
-
-  //   // Emit the selected template through the service
-  //   // this.templateSelectionService.selectTemplate({
-  //   //   templateComponent: templateComponent,
-  //   //   bindings: {
-  //   //     formData: this.formData,
-  //   //     selectedImageUrl: this.selectedImageUrl,
-  //   //     backgroundColor: this.selectedBackgroundColor,
-  //   //     mainTextColor: this.selectedHeaderColor
-  //   //   }
-  //   // });
-
-  
-  //   // this.templateSelected.emit({ templateComponent, bindings });
-  // }
-  
-  onTemplateSelected(templateName: string) {
+  onTemplateSelected(templateName: string | null) {
     let templateComponent: any;
 
     switch (templateName) {
@@ -138,12 +71,8 @@ export class CvBuilderComponent {
   }
   
 
-  // selectTemplate(template: Type<any>): void {
-  //   this.templateSelected.emit(template);
-  // }
-  
-
   ngOnInit() {
+    this.onTemplateSelected(null);
     // Retrieve selected colors from Local Storage if available
     this.selectedBackgroundColor =
       localStorage.getItem('selectedBackgroundColor') || '#ffffff';
@@ -183,21 +112,7 @@ export class CvBuilderComponent {
     });
   }
 
-  // templates = [
-  //   { type: 'one', component: TemplateOnePreviewComponent, showButton: false },
-  //   { type: 'two', component: TemplateTwoPreviewComponent, showButton: false },
-  //   { type: 'three', component: TemplateThreePreviewComponent, showButton: false }
-  //   // Add more templates as needed
-  // ];
-
-  // setHoveredTemplateType(type: string | null) {
-  //   this.selectedTemplateType = type;
-  // }
-
-  // toggleButton(index: number) {
-  //   this.templates[index].showButton = !this.templates[index].showButton;
-  // }
-
+ 
   selectedBackgroundColor: string = '#ffffff'; // Initial background color
   selectedHeaderColor: string = '#000000'; // Initial header color
   showButton: boolean = false;
@@ -228,9 +143,6 @@ export class CvBuilderComponent {
     }
   }
 
-  // selectComponent(componentId: string): void {
-  //   this.componentSelected.emit(componentId);
-  // }
 
   printCV() {
     window.print();
