@@ -17,20 +17,16 @@ declare var html2pdf: any;
 //   ]
 // });
 
-bootstrapApplication(AppComponent,
-  
-  
-  appConfig)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
 
 // bootstrapApplication(AppComponent, {
 //   providers: [
-//     provideAuth0({
-//       domain: 'dev-fc5lurkbs7t0nlpj.us.auth0.com',
-//       clientId: 'VB2JleftQqgfnBjqeMKOHh1fKrtHnIQB',
-//       authorizationParams: {
-//         redirect_uri: window.location.origin
-//       }
-//     }),
+//     // provideAuth0({
+//     //   domain: 'dev-fc5lurkbs7t0nlpj.us.auth0.com',
+//     //   clientId: 'VB2JleftQqgfnBjqeMKOHh1fKrtHnIQB',
+//     //   authorizationParams: {
+//     //     // redirect_uri: window.location.origin
+//     //   }
+//     // }),
 //   ]
 // });

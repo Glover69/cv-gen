@@ -72,7 +72,7 @@ export class CvBuilderComponent {
   
 
   ngOnInit() {
-    this.onTemplateSelected(null);
+    // this.onTemplateSelected(null);
     // Retrieve selected colors from Local Storage if available
     this.selectedBackgroundColor =
       localStorage.getItem('selectedBackgroundColor') || '#ffffff';

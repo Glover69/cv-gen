@@ -50,7 +50,10 @@ export class TemplateTwoComponent implements OnInit, OnChanges {
     });
 
     console.log('formData in ngOnInit:', this.formData);
-    this.skillsAsString = this.formData.skills.map(skill => skill.name).join(', ');
+
+    // if(this?.skillsAsString?.length >= 1){
+    //   this.skillsAsString = this?.formData?.skills.map(skill => skill.name).join(', ');
+    // }
 
   }
 
@@ -60,6 +63,9 @@ export class TemplateTwoComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('formData in ngOnChanges:', this.formData);
+    if(this?.formData?.skills?.length >= 1){
+      this.skillsAsString = this.formData.skills.map(skill => skill.name).join(', ');
+    }
   }
 
 

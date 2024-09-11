@@ -2,7 +2,7 @@
     <div class="header flex items-end justify-between">
 
         <div class="left flex items-center gap-2">
-            <div [style.backgroundImage]="selectedImageUrl ? 'url(' + selectedImageUrl + ')' : 'url(' + customerProfilePhoto + ')'" [style.backgroundColor]="textColor" class="w-9 h-9 rounded-full bg-cover bg-center bg-no-repeat">
+            <div [style.backgroundImage]="selectedImageUrl ? 'url(' + selectedImageUrl + ')' : 'url(' + customerProfilePhoto + ')'" [style.backgroundColor]="textColor" class="w-10 h-10 2xl:w-14 2xl:h-14 rounded-full bg-cover bg-center bg-no-repeat">
                 
             </div>
 
@@ -14,14 +14,14 @@
         
 
         <div class="right flex flex-col items-end">
-            <a href="{{formData.website}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">{{formData.website}}</a>
+            <a href="https://{{formData.website}}" target="_blank" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">{{formData.website}}</a>
 
             @if (formData.linkedIn) {
-                <a href="{{formData.linkedIn}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">linkedin.com</a>
+                <a href="https://{{formData.linkedIn}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">linkedin.com</a>
             }
 
             @if (formData.github) {
-                <a href="{{formData.github}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">github.com</a>
+                <a href="https://{{formData.github}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">github.com</a>
             }
 
             <a href="mailto:{{formData.email}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">{{formData.email}}</a>

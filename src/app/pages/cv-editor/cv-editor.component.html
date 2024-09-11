@@ -11,8 +11,12 @@
         <div class="right flex items-center gap-4">
 
 
-            @if (!auth.user$) {
-            <button (click)="login()"
+            @if(auth.user$ | async; as user) {
+                <div style="background-image: url('{{user.picture}}');" class="profile w-12 h-12 rounded-full bg-cover bg-center bg-no-repeat bg-gray-200">
+
+                </div>
+            }@else {
+                <button (click)="auth.loginWithRedirect()"
                 class="login rounded-lg bg-white border flex-grow border-[#D0D5DD] text-[#344054] py-3 px-6 SF-Medium"
                 href="">Login</button>
             }
@@ -23,10 +27,10 @@
                 <span class="Raleway-SemiBold text-[#fff]">Download</span>
             </button>
 
-            <div style="background-image: url('{{user.picture}}');" *ngIf="user"
+            <!-- <div style="background-image: url('{{user.picture}}');" *ngIf="user"
                 class="w-12 h-12 rounded-full bg-center bg-cover bg-no-repeat">
 
-            </div>
+            </div> -->
 
 
         </div>

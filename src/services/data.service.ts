@@ -32,4 +32,8 @@ export class DataService {
     return this.formDataSubject.asObservable();
   }
   
+
+  addUser(user: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/auth/add-user`, {user})
+  }
 }

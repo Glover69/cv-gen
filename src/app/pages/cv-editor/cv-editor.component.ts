@@ -31,6 +31,7 @@ import { DataService } from '../../../services/data.service';
 import { AuthService, User } from '@auth0/auth0-angular';
 import { DynamicTemplateDirective } from '../../../directives/dynamic-template.directive';
 import { TemplateSelectionService } from '../../../services/template-selection.service';
+import { ToastService } from '../../../services/toast.service';
 // import * as html2pdf from 'html2pdf.js';
 
 declare var html2pdf: any;
@@ -73,7 +74,7 @@ export class CvEditorComponent {
   selectedFileUrl: string | null = null;
   customerProfilePhoto!: any;
   selectedFile: File | null = null;
-  isTemplateDialogOpen: boolean = false;
+  isTemplateDialogOpen: boolean = true;
   resumeForm!: FormGroup;
   selectedTemplate: Type<any> | null = null;
   selectedImageUrl: string = '';
@@ -119,15 +120,15 @@ export class CvEditorComponent {
   }
 
   login() {
-    this.auth.loginWithRedirect();
+    // this.auth.loginWithRedirect();
   }
 
   logout() {
-    this.auth.logout({ 
-      logoutParams: {
-        returnTo: this.document.location.origin 
-      }
-    });
+    // this.auth.logout({ 
+    //   logoutParams: {
+    //     returnTo: this.document.location.origin 
+    //   }
+    // });
   }
 
   constructor(
@@ -137,6 +138,7 @@ export class CvEditorComponent {
     public auth: AuthService,
     private templateSelectionService: TemplateSelectionService,
     @Inject(DOCUMENT) public document: Document,
+    private toastService: ToastService
   ) {
 
   }
@@ -176,12 +178,48 @@ export class CvEditorComponent {
 
     this.templateSelectionService.getSelectedTemplate().subscribe(template => {
       this.selectedTemplate = template?.templateComponent;
+
+      if(template?.templateComponent){
+        console.log('yes')
+        this.toastService.showToast(
+          'Template applied🎉',
+        );
+      }else{
+        console.log('no');
+        this.toastService.showToast(
+          'Template error',
+          `An error occurred while applying this template. Please choose another.`
+        );
+      }
     });
 
-    this.auth.user$.subscribe(user => {
-      this.user = user; // Assign the user information to the user property
-      console.log(this.user);
-    });
+    if(this.auth.user$){
+      this.auth.user$.subscribe(user => {
+        this.user = user; // Assign the user information to the user property
+        console.log(this.user);
+
+        const email = this.user?.email
+        const isEmailVerified = this.user?.email_verified;
+        const profile = this.user?.picture;
+        const fullname = this.user?.name;
+        const authID = this.user?.sub;
+
+        const payload = {
+          email, isEmailVerified, profile, fullname, authID
+        }
+
+
+        this.dataService.addUser(payload).subscribe({
+          next: (response: any) => {
+            console.log('User added successfully!', response);
+          },
+          error: (err: any) => {
+            console.log('Error adding user.', err);
+          }
+        })
+        
+      });
+    }
   }
 
 
