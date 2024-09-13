@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DataService } from '../../../../services/data.service';
+import { AuthService, User } from '@auth0/auth0-angular';
+import { SavedUser } from '../../../../models/data.models';
+import { UtilityService } from '../../../../services/utility.service';
 
 @Component({
   selector: 'app-education-form',
@@ -15,9 +18,12 @@ export class EducationFormComponent {
   @Output() formDataChange = new EventEmitter<any>();
   @Input() formData: any;
   @Output() continueClicked = new EventEmitter<{ formData: any, nextStep: number }>(); // Emit event when continue button is clicked
+  user!: User | null | undefined;
+  savedUser!: SavedUser;
+  sanitizedData: any;
 
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {
+  constructor(private fb: FormBuilder, private utilityService: UtilityService, public auth: AuthService, private dataService: DataService) {
 
   }
 
@@ -35,6 +41,43 @@ export class EducationFormComponent {
         // Emit the updated form data
         this.formDataChange.emit(value);
       });
+
+      // console.log(this.formData);
+      
+      
+      if(this.auth.user$){
+        this.auth.user$.subscribe(user => {
+          this.user = user; // Assign the user information to the user property
+          console.log(this.user);
+  
+          const email = this.user?.email
+          const isEmailVerified = this.user?.email_verified;
+          const profile = this.user?.picture;
+          const fullname = this.user?.name;
+          const authID = this.user?.sub;
+
+          this.dataService.getUserByAuthID(authID).subscribe({
+            next: (res: SavedUser) => {
+              console.log('User:', res);
+              this.savedUser = res;
+            },
+            error: (err: Error) => {
+              console.log('Error fetching user:', err);
+            }
+          })
+        });
+      }
+
+      const sanitizedData = this.utilityService.sanitizeData(this.formData);
+      try {
+        console.log(JSON.stringify(sanitizedData));
+        this.sanitizedData = sanitizedData;
+      } catch (error) {
+        console.error('Error serializing sanitized data:', error);
+      }
+
+
+      
   }
 
   setEducation(education: any[]) {
@@ -104,5 +147,25 @@ export class EducationFormComponent {
       startDate: [''],
       endDate: [''],
     });
+  }
+
+  saveToCollection(){
+    const resume = this.sanitizedData
+
+    // const resume = JSON.parse(JSON.stringify(this.formData));
+    console.log(resume);
+
+    if(this.savedUser.collectionID){
+      const collectionID = this.savedUser.collectionID;
+
+    this.dataService.saveToCollection(collectionID, resume).subscribe({
+      next: (res) => {
+        console.log('CV added to collection successfully:', res);
+      },
+      error: (err: Error) => {
+        console.error('Error adding file:', err);
+      }
+    })
+    }
   }
 }

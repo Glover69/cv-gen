@@ -96,3 +96,14 @@ export interface User {
   }[];
   resumes: Resume[];
 }
+
+
+export interface SavedUser {
+  email: string;
+  fullname: string;
+  profile: string;
+  isEmailVerified: boolean;
+  authID: string;
+  customerID: string;
+  collectionID: string;
+}

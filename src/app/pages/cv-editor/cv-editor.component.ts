@@ -74,11 +74,12 @@ export class CvEditorComponent {
   selectedFileUrl: string | null = null;
   customerProfilePhoto!: any;
   selectedFile: File | null = null;
-  isTemplateDialogOpen: boolean = true;
+  isTemplateDialogOpen: boolean = false;
   resumeForm!: FormGroup;
   selectedTemplate: Type<any> | null = null;
   selectedImageUrl: string = '';
   @ViewChild('pdfContent') pdfContent!: ElementRef;
+  isProfileDialogOpen: boolean = false;
   
 
 
@@ -117,6 +118,10 @@ export class CvEditorComponent {
 
   openTemplateDialog(): void {
     this.isTemplateDialogOpen = !this.isTemplateDialogOpen;
+  }
+
+  openProfileDialog(): void {
+    this.isProfileDialogOpen = !this.isProfileDialogOpen;
   }
 
   login() {
