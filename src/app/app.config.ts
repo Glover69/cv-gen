@@ -5,10 +5,14 @@ import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { AuthClientConfig, provideAuth0 } from '@auth0/auth0-angular';
 import { ProgressInterceptor } from '../interceptors/progress.interceptor';
+import { provideLottieOptions } from 'ngx-lottie';
 
 export const appConfig: ApplicationConfig = {
   providers: [
    
+    provideLottieOptions({
+      player: () => import('lottie-web'),
+  }),
     provideRouter(routes),
     provideHttpClient(),
       provideAuth0({

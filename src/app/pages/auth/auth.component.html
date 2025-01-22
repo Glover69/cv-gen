@@ -1,0 +1,244 @@
+<section
+    class="auth-page h-[-webkit-fill-available] relative flex items-center justify-center lg:grid grid-cols-2 px-5 lg:px-0 mb-14 lg:mb-0">
+
+    @if (!currentUser) {
+    @if (isSignUp) {
+    <div class="left w-full flex flex-col items-center justify-between pb-12 self-stretch h-full">
+
+        <form [formGroup]="signUpForm" (ngSubmit)="onSubmitSignup()"
+            class="main-auth-container pt-12 lg:w-[70%] xl:w-3/5 3xl:w-[60%] flex flex-col items-start justify-center gap-8 lg:my-auto">
+            <div class="header flex flex-col items-start">
+                <span class="Raleway-SemiBold text-2xl text-main-txt-color tracking-tight xl:text-4xl">Sign Up</span>
+                <span class="Raleway-Regular tracking-tight text-sub-txt-color xl:text-xl">Create your account to get started. We promise, this won't take long.</span>
+            </div>
+
+            <div class="content flex flex-col items-start gap-5 w-full">
+
+                <!-- First name and lastname -->
+                <div class="input-row w-full flex items-center gap-2">
+                    <div class="input-group flex flex-col items-start gap-1 w-full">
+                        <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-main-blue">First Name</span>
+                        <input
+                            class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-main-black placeholder:opacity-50 tracking-tight Inter-Regular "
+                            placeholder="John" type="text" formControlName="firstName">
+                    </div>
+
+                    <div class="input-group flex flex-col items-start gap-1 w-full">
+                        <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-main-blue">Last Name</span>
+                        <input
+                            class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-main-black placeholder:opacity-50 tracking-tight Inter-Regular "
+                            placeholder="Appleseed" type="text" formControlName="lastName">
+                    </div>
+                </div>
+
+
+                <!-- Email Address-->
+                <div class="input-group flex flex-col items-start gap-1 w-full">
+                    <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-main-blue">Email Address</span>
+                    <input
+                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-main-black placeholder:opacity-50 tracking-tight Inter-Regular "
+                        placeholder="Enter your email" type="text" formControlName="email">
+                    <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-regular-txt">A verification code will be sent to
+                        this email.</span>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="input-group flex flex-col items-start gap-1 w-full">
+                    <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-main-blue">Phone Number</span>
+                    <div class="flex items-center gap-4 w-full">
+                        <img class="w-6" src="/assets/icons/ghana-flag.svg" alt="">
+
+                        <input class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-main-black placeholder:opacity-50 tracking-tight Inter-Regular "
+                        placeholder="020 123 4567" type="tel" formControlName="phoneNumber">
+                    </div>
+                    <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-regular-txt">We'll reach you on this number for service udpates.</span>
+                </div>
+
+                <!-- Password -->
+                <div class="input-group flex flex-col items-start gap-1 w-full">
+                    <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-main-blue">Password</span>
+                    <input minlength="8"
+                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-main-black placeholder:opacity-50 tracking-tight Inter-Regular "
+                        placeholder="Create a password" type="password" formControlName="password">
+                    <span class="text-sm xl:text-base tracking-tight Raleway-Regular text-regular-txt">Must be at least 8 characters</span>
+
+                </div>
+            </div>
+
+
+            <div class="w-full flex flex-col gap-2">
+                <button [disabled]="signUpForm.invalid || isLoading" type="submit" class="buy-now-btn flex items-center justify-center gap-2 disabled:opacity-35 disabled:border-[transparent] w-full bg-blue border-2 border-main-orange py-3 rounded-lg tracking-tight Raleway-Medium text-white lg:text-lg" id="btn-filled">
+                    @if (isLoading) {
+                        <ng-lottie [options]="lottieConfig" width="30px">
+                        </ng-lottie>
+                    }
+                    <span [ariaDisabled]="isLoading" class="text-white aria-disabled:opacity-75 tracking-tight Raleway-Medium">Create Account</span>
+                </button>
+                
+
+                <!-- <button [disabled]="isLoading" type="submit"
+                                class="cart-btn flex items-center flex-grow-0 justify-center gap-2 rounded-lg bg-[#E662081A] border-2 border-transparent px-6 py-2">
+                                @if (isLoading) {
+                                    <ng-lottie [options]="lottieConfig" width="30px">
+                                    </ng-lottie>
+                                }
+                                <span class="tracking-tight Raleway-Medium text-main-orange">Create Account</span>
+                            </button> -->
+
+                
+
+                <span class="Raleway-Regular tracking-tight text-sub-txt-color text-center w-full">Already have an account? <span
+                        class="cursor-pointer text-blue" (click)="toggleLogin()">Log In</span></span>
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+    }
+
+    @if(isVerificationStep){
+    <div class="left w-full flex flex-col items-center justify-between flex-1 self-stretch h-full">
+
+        <form [formGroup]="otpForm" (ngSubmit)="onSubmitVerification()"
+            class="main-auth-container pt-12 lg:pt-0 lg:w-[70%] xl:w-3/5 3xl:w-[45%] flex flex-col items-start justify-center gap-8 lg:my-auto">
+            <div class="header flex flex-col items-start">
+                <span class="tracking-tight Raleway-Bold text-2xl text-main-blue xl:text-3xl">Confirm your email
+                    address</span>
+                <span class="tracking-tight Raleway-Regular text-regular-txt xl:text-xl">We've sent a 4-digit code to <span
+                        class="tracking-tight Raleway-Bold">{{this.signUpForm.get('email')?.value || this.signInForm.get('email')?.value}}</span>. Enter it below.</span>
+            </div>
+
+            <div class="content flex flex-col items-start gap-3 w-full">
+
+                <div class="otp-input w-full flex items-center justify-center gap-3">
+                    <input type="number" formControlName="otp1" maxlength="1" class="w-16 h-16 lg:w-full lg:h-20 lg:text-2xl xl:text-3xl rounded-lg focus:outline-2 focus:outline-main-orange border border-[#D0D5DD] bg-white text-center text-xl py-3 px-4 2xl:py-4 2xl:px-5 placeholder:text-main-black placeholder:opacity-50 tracking-tight Raleway-Regular " #otpInput (input)="onInput($event, 0)"
+                        (keydown)="onKeyDown($event, 0)" />
+                    <input type="number" formControlName="otp2" maxlength="1" class="w-16 h-16 lg:w-full lg:h-20 lg:text-2xl xl:text-3xl rounded-lg focus:outline-2 focus:outline-main-orange border border-[#D0D5DD] bg-white text-center text-xl py-3 px-4 2xl:py-4 2xl:px-5 placeholder:text-main-black placeholder:opacity-50 tracking-tight Raleway-Regular " #otpInput (input)="onInput($event, 1)"
+                        (keydown)="onKeyDown($event, 1)" />
+                    <input type="number" formControlName="otp3" maxlength="1" class="w-16 h-16 lg:w-full lg:h-20 lg:text-2xl xl:text-3xl rounded-lg focus:outline-2 focus:outline-main-orange border border-[#D0D5DD] bg-white text-center text-xl py-3 px-4 2xl:py-4 2xl:px-5 placeholder:text-main-black placeholder:opacity-50 tracking-tight Raleway-Regular " #otpInput (input)="onInput($event, 2)"
+                        (keydown)="onKeyDown($event, 2)" />
+                    <input type="number" formControlName="otp4" maxlength="1" class="w-16 h-16 lg:w-full lg:h-20 lg:text-2xl xl:text-3xl rounded-lg focus:outline-2 focus:outline-main-orange border border-[#D0D5DD] bg-white text-center text-xl py-3 px-4 2xl:py-4 2xl:px-5 placeholder:text-main-black placeholder:opacity-50 tracking-tight Raleway-Regular " #otpInput (input)="onInput($event, 3)"
+                        (keydown)="onKeyDown($event, 3)" />
+                </div>
+
+
+                <span class="tracking-tight Raleway-Regular text-main-orange cursor-pointer" (click)="toggleLogin()">Resend Code</span>
+
+            </div>
+
+
+            <div class="w-full flex flex-col gap-2">
+
+                <!-- @if (isLoading) {
+                <div aria-disabled="true"
+                    class="buy-now-btn w-full text-center bg-gray-200 border-2 border-gray-200 py-3 rounded-lg tracking-tight Raleway-Medium animate-pulse text-white lg:text-lg"
+                    id="btn-filled">Confirm</div>
+                }@else {
+                <button [disabled]="otpForm.invalid" type="submit"
+                    class="buy-now-btn disabled:opacity-35 w-full bg-main-orange border-2 border-main-orange py-3 rounded-lg tracking-tight Raleway-Medium text-white lg:text-lg"
+                    id="btn-filled">Confirm</button>
+                } -->
+
+                <button [disabled]="otpForm.invalid || isLoading" type="submit" class="buy-now-btn flex items-center justify-center gap-2 disabled:opacity-35 disabled:border-[transparent] w-full bg-blue border-2 border-blue py-3 rounded-lg tracking-tight Raleway-Medium text-white lg:text-lg" id="btn-filled">
+                    @if (isLoading) {
+                        <ng-lottie [options]="lottieConfig" width="30px">
+                        </ng-lottie>
+                    }
+                    <span [ariaDisabled]="isLoading" class="text-white aria-disabled:opacity-75 tracking-tight Raleway-Medium">Confirm</span>
+                </button>
+
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+
+    }
+
+    @if (isLogin) {
+    <div class="left w-full flex flex-col items-center justify-between pb-12 self-stretch h-full">
+
+        <form [formGroup]="signInForm" (ngSubmit)="onSubmitLogin()"
+            class="main-auth-container pt-12 w-full lg:w-[70%] xl:w-3/5 3xl:w-[45%] flex flex-col items-start justify-center gap-8 lg:my-auto">
+            <div class="header flex flex-col items-start">
+                <span class="Raleway-Bold text-2xl text-main-txt-color tracking-tight xl:text-4xl">Log In</span>
+                <span class="Raleway-Regular tracking text-sub-txt-color xl:text-xl">Welcome back! Please enter your details.</span>
+            </div>
+
+            <div class="content flex flex-col items-start gap-5 w-full">
+
+                <!-- Email Address-->
+                <div class="input-group flex flex-col items-start gap-1 w-full">
+                    <span class="text-sm xl:text-base Raleway-Regular tracking-tight text-sub-txt-color">Email Address</span>
+                    <input
+                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-main-black placeholder:opacity-50 Raleway-Regular "
+                        placeholder="Enter your email" type="text" formControlName="email">
+                </div>
+
+                <!-- Password -->
+                <div class="input-group flex flex-col items-start gap-1 w-full">
+                    <span class="text-sm xl:text-base Raleway-Regular text-sub-txt-color">Password</span>
+                    <input
+                        class="focus:outline-none rounded-lg border border-[#D0D5DD] bg-white py-3 px-4 2xl:py-4 2xl:px-5 w-full placeholder:text-main-black placeholder:opacity-50 Raleway-Regular "
+                        placeholder="Create a password" type="password" formControlName="password">
+                    <span class="text-blue cursor-pointer Raleway-Regular w-full">Forgot Password?</span>
+                </div>
+
+
+
+            </div>
+
+
+            <div class="w-full flex flex-col gap-2">
+                <!-- @if (isLoading) {
+                <div aria-disabled="true"
+                    class="buy-now-btn w-full text-center bg-gray-200 border-2 border-gray-200 py-3 rounded-lg tracking-tight Raleway-Medium animate-pulse text-white lg:text-lg"
+                    id="btn-filled">Sign In</div>
+                }@else {
+                <button type="submit"
+                    class="buy-now-btn w-full bg-main-orange border-2 border-main-orange py-3 rounded-lg tracking-tight Raleway-Medium text-white lg:text-lg"
+                    id="btn-filled">Sign In</button>
+                } -->
+
+                <button [disabled]="signInForm.invalid || isLoading" type="submit" class="buy-now-btn flex items-center justify-center gap-2 disabled:opacity-35 disabled:border-[transparent] w-full bg-blue border-2 border-main-orange py-3 rounded-lg Raleway-Medium text-white lg:text-lg" id="btn-filled">
+                    @if (isLoading) {
+                        <ng-lottie [options]="lottieConfig" width="30px">
+                        </ng-lottie>
+                    }
+                    <span [ariaDisabled]="isLoading" class="text-white aria-disabled:opacity-75 Raleway-Medium">Sign In</span>
+                </button>
+                <span class="Raleway-Regular text-regular-txt text-center w-full">Don't have an account? <span
+                        class="text-blue cursor-pointer" (click)="toggleSignUp()">Sign Up</span></span>
+            </div>
+
+
+
+        </form>
+
+
+
+    </div>
+    }
+
+
+    <div style="background-image: url('/assets/images/loginBG.jpeg');"
+        class="right hidden lg:flex h-full bg-cover bg-center bg-no-repeat">
+        <div class="layer bg-black opacity-15 w-full h-full">
+
+        </div>
+
+    </div>
+    }
+
+
+
+
+</section>

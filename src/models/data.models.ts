@@ -97,6 +97,34 @@ export interface User {
   resumes: Resume[];
 }
 
+export type UserResponse = {
+  status: string;
+  message: string;
+  token: string;
+  user: {
+    customerID: string | undefined;
+  };
+};
+
+export type UserSignIn = {
+  message?: string;
+  token: string;
+  user: {
+    email: string;
+    customerID: string;
+  };
+};
+
+
+export type UserVerification = {
+  status: string;
+  message: string;
+  data: {
+    customerID: string;
+    email: string;
+  };
+};
+
 
 export interface SavedUser {
   email: string;

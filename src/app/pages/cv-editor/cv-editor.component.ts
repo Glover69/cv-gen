@@ -198,33 +198,33 @@ export class CvEditorComponent {
       }
     });
 
-    if(this.auth.user$){
-      this.auth.user$.subscribe(user => {
-        this.user = user; // Assign the user information to the user property
-        console.log(this.user);
+    // if(this.auth.user$){
+    //   this.auth.user$.subscribe(user => {
+    //     this.user = user; // Assign the user information to the user property
+    //     console.log(this.user);
 
-        const email = this.user?.email
-        const isEmailVerified = this.user?.email_verified;
-        const profile = this.user?.picture;
-        const fullname = this.user?.name;
-        const authID = this.user?.sub;
+    //     const email = this.user?.email
+    //     const isEmailVerified = this.user?.email_verified;
+    //     const profile = this.user?.picture;
+    //     const fullname = this.user?.name;
+    //     const authID = this.user?.sub;
 
-        const payload = {
-          email, isEmailVerified, profile, fullname, authID
-        }
+    //     const payload = {
+    //       email, isEmailVerified, profile, fullname, authID
+    //     }
 
 
-        this.dataService.addUser(payload).subscribe({
-          next: (response: any) => {
-            console.log('User added successfully!', response);
-          },
-          error: (err: any) => {
-            console.log('Error adding user.', err);
-          }
-        })
+    //     this.dataService.addUser(payload).subscribe({
+    //       next: (response: any) => {
+    //         console.log('User added successfully!', response);
+    //       },
+    //       error: (err: any) => {
+    //         console.log('Error adding user.', err);
+    //       }
+    //     })
         
-      });
-    }
+    //   });
+    // }
   }
 
 

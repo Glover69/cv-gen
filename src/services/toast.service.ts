@@ -19,6 +19,6 @@ export class ToastService {
   toast$ = this.toastSubject.asObservable();
 
   showToast(header: string, message?: string): void {
-    this.toastSubject.next({ header });
+    this.toastSubject.next({ header, message });
   }
 }
