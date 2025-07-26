@@ -22,7 +22,7 @@
             }
 
 
-            <button (click)="generateResumePDF(formData, selectedColor)" class="bg-blue rounded-lg px-6 py-4 flex items-center gap-3">
+            <button (click)="downloadPdf()" class="bg-blue rounded-lg px-6 py-4 flex items-center gap-3">
                 <img src="/assets/icons/document-download.svg" alt="">
                 <span class="Raleway-SemiBold text-[#fff]">Download</span>
             </button>
@@ -88,7 +88,7 @@
 
         <div class="right w-full grid overflow-y-auto py-12 lg:px-10 xl:px-20 2xl:px-28 h-[100%]">
 
-            <div id="pdfContent" #pdfContent>
+            <div id="print-area" #pdfContent>
                 <!-- <ng-container *ngComponentOutlet="selectedTemplate; injector: dynamicComponentInjector() inputs: { formData, selectedImageUrl }"></ng-container> -->
                 <!-- <div [innerHTML]="htmlOutput" class="preview"></div> -->
                  <app-resume-preview [templateName]="'modern'" [cvData]="cvData" [textColor]="selectedColor"></app-resume-preview>

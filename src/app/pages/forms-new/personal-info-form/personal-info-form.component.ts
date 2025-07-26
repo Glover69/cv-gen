@@ -42,7 +42,7 @@ export class PersonalInfoFormComponent implements OnInit {
       showLinkedIn: [true],
       github: [data.github || ''],
       showGitHub: [false],
-      profileImage: [this.selectedFileUrl || ''],
+      selectedImageUrl: [this.selectedFileUrl || ''],
     });
 
 

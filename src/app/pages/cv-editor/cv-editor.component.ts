@@ -9,11 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import {
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CvBuilderComponent } from '../cv-builder/cv-builder.component';
 import { RouterModule } from '@angular/router';
 import { DataService } from '../../../services/data.service';
@@ -30,6 +26,7 @@ import { ResumeDataService } from '../../../services/resume-data.service';
 import { ExperienceFormComponent } from '../forms-new/experience-form/experience-form.component';
 import { ColorService } from '../../../services/color.service';
 import { EducationFormComponent } from '../forms-new/education-form/education-form.component';
+import { DownloadService } from '../../../services/download.service';
 
 type Steps = {
   icon: string;
@@ -70,7 +67,7 @@ export class CvEditorComponent {
   @ViewChild('pdfContent') pdfContent!: ElementRef;
   isProfileDialogOpen: boolean = false;
   selectedColor!: string;
-  cvData: any
+  cvData: any;
 
   generatePDF() {
     const element = this.pdfContent.nativeElement;
@@ -584,6 +581,7 @@ export class CvEditorComponent {
     private cdr: ChangeDetectorRef,
     private injector: Injector,
     public auth: AuthService,
+    private downloadService: DownloadService,
     private templateSelectionService: TemplateSelectionService,
     @Inject(DOCUMENT) public document: Document,
     private toastService: ToastService,
@@ -606,25 +604,24 @@ export class CvEditorComponent {
     console.log(this.formData, this.currentStepIndex);
   }
 
-
   ngOnInit() {
-    this.selectedColor = this.colorService.getCurrentColor()
+    this.selectedColor = this.colorService.getCurrentColor();
 
     this.resumeDataService.updateCVData({
       ...this.resumeDataService.getCurrentCVData(),
       textColor: this.selectedColor,
-      selectedImageUrl: this.selectedImageUrl
-    })
+      selectedImageUrl: this.selectedImageUrl,
+    });
 
-    this.resumeDataService.cvData$.subscribe(data => {
-    console.log('🔄 CvEditor received data:', data); // Add this
-    this.cvData = data
+    this.resumeDataService.cvData$.subscribe((data) => {
+      console.log('🔄 CvEditor received data:', data); // Add this
+      this.cvData = data;
 
-    console.log(this.selectedColor)
-    this.cdr.markForCheck(); // Force change detection
-    console.log('✅ CvEditor cvData updated:', this.cvData); // Add this
-    // this.renderTemplate();
-  });
+      console.log(this.selectedColor);
+      this.cdr.markForCheck(); // Force change detection
+      console.log('✅ CvEditor cvData updated:', this.cvData); // Add this
+      // this.renderTemplate();
+    });
     // const storedColor = localStorage.getItem('textColor');
     // if (storedColor) {
     //   this.selectedColor = storedColor;
@@ -650,7 +647,7 @@ export class CvEditorComponent {
     //     this.selectedColor = '#000000'; // Default color
     //   }
 
-    //   this.cdr.markForCheck(); 
+    //   this.cdr.markForCheck();
     //   console.log('Some color: ', this.selectedColor);
     // });
 
@@ -701,7 +698,7 @@ export class CvEditorComponent {
 
   goToStep(index: number): void {
     this.currentStepIndex = index;
-    console.log(this.currentStepIndex)
+    console.log(this.currentStepIndex);
   }
 
   steps: Steps[] = [
@@ -724,5 +721,29 @@ export class CvEditorComponent {
 
   printCV() {
     window.print();
+  }
+
+  // downloadPDF() {
+  //   const printContents = document.getElementById('print-area')?.innerHTML;
+  //   const originalContents = document.body.innerHTML;
+
+  //   if (!printContents) return;
+
+  //   document.body.innerHTML = printContents;
+  //   window.print();
+  //   document.body.innerHTML = originalContents;
+  //   location.reload(); // re-render app
+  // }
+
+
+  downloadPdf() {
+    this.downloadService.downloadPdf('modern', this.cvData).subscribe(blob => {
+      const link = document.createElement('a');
+      const url = window.URL.createObjectURL(blob);
+      link.href = url;
+      link.download = 'resume.pdf';
+      link.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }
