@@ -180,13 +180,16 @@ export class AuthComponent {
           (error) => {
             console.error('Signup error:', error);
             this.isLoading = false;
+            this.toastService.showToast(
+              'Invalid OTP',
+              `Please check your email for the correct code and try again.`
+            );
           }
         );
     }
   }
 
   onSubmitSignup() {
-    // console.log(this.signUpForm.valid);
     if (this.signUpForm.valid) {
       this.isLoading = true;
 
@@ -217,13 +220,15 @@ export class AuthComponent {
           })
         )
         .subscribe((response: HttpResponse<UserVerification>) => {
-          if (
-            response.status === 200 &&
-            response.body?.message === 'Verification Code sent.'
-          ) {
+          if (response.status === 201 && response.body?.message) {
             // console.log(response.body);
 
-            this.customerID = response.body.data.customerID;
+            this.toastService.showToast(
+              'You are almost there!',
+              `A code has been sent to your email to verify your account.`
+            );
+
+            this.customerID = response.body.user.customerID;
             this.isVerificationStep = true;
             this.isSignUp = false;
             this.isLoading = false;

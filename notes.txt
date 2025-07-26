@@ -1,0 +1,2 @@
+- Continue from where you left off, making changes to the handlebars template 
+some lines weren't showing

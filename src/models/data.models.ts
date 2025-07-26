@@ -117,9 +117,9 @@ export type UserSignIn = {
 
 
 export type UserVerification = {
-  status: string;
+  // status: string;
   message: string;
-  data: {
+  user: {
     customerID: string;
     email: string;
   };

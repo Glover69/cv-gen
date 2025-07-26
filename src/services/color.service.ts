@@ -10,8 +10,14 @@ export class ColorService {
 
   constructor() { }
 
-  updateTextColor(color: string): void {
-    this.textColorSubject.next(color); 
+  getCurrentColor(){
+    const color = localStorage.getItem('textColor')
+    this.updateTextColor(color)
+    return this.textColorSubject.value
+  }
+
+  updateTextColor(color: string | null): void {
+    this.textColorSubject.next(color ?? '#000'); 
   }
   // setTextColor(color: string): void {
   //   localStorage.setItem('textColor', color);

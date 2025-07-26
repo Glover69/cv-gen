@@ -22,7 +22,7 @@
             }
 
 
-            <button (click)="generatePDF()" class="bg-blue rounded-lg px-6 py-4 flex items-center gap-3">
+            <button (click)="generateResumePDF(formData, selectedColor)" class="bg-blue rounded-lg px-6 py-4 flex items-center gap-3">
                 <img src="/assets/icons/document-download.svg" alt="">
                 <span class="Raleway-SemiBold text-[#fff]">Download</span>
             </button>
@@ -68,22 +68,18 @@
 
             <div class="left-content w-full h-full col-span-4 overflow-y-auto">
                 @if (currentStepIndex === 0) {
-                <app-personal-info-form [formData]="formData" (imageSelected)="onImageSelected($event)"
-                    (formDataChange)="handleFormDataChange($event)"
-                    (continueClicked)="handleContinueClick($event)"></app-personal-info-form>
+                <app-personal-info-form></app-personal-info-form>
                 }
 
                 @if (currentStepIndex === 1) {
                 <div class="content-area w-full h-full p-4">
-                    <app-experience-form [formData]="formData" (continueClicked)="handleContinueClick($event)"
-                        (formDataChange)="handleFormDataChange($event)"></app-experience-form>
+                    <app-experience-form></app-experience-form>
                 </div>
                 }
 
                 @if (currentStepIndex === 2) {
                 <div class="content-area w-full h-full p-4">
-                    <app-education-form [formData]="formData" (continueClicked)="handleContinueClick($event)"
-                        (formDataChange)="handleFormDataChange($event)"></app-education-form>
+                    <app-education-form></app-education-form>
                 </div>
                 }
             </div>
@@ -93,10 +89,12 @@
         <div class="right w-full grid overflow-y-auto py-12 lg:px-10 xl:px-20 2xl:px-28 h-[100%]">
 
             <div id="pdfContent" #pdfContent>
-                <ng-container *ngComponentOutlet="selectedTemplate; injector: dynamicComponentInjector() inputs: { formData, selectedImageUrl }"></ng-container>
+                <!-- <ng-container *ngComponentOutlet="selectedTemplate; injector: dynamicComponentInjector() inputs: { formData, selectedImageUrl }"></ng-container> -->
+                <!-- <div [innerHTML]="htmlOutput" class="preview"></div> -->
+                 <app-resume-preview [templateName]="'modern'" [cvData]="cvData" [textColor]="selectedColor"></app-resume-preview>
             </div>
 
-            @if (!selectedTemplate) {
+            @if (!selected_Template) {
                 <div class="flex flex-col items-center">
                     <span class="Raleway-SemiBold text-2xl">You have no template selected</span>
                     <span class="Raleway-Regular text-sm">Pick one from our options to get started!</span>

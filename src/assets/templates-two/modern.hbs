@@ -1,0 +1,111 @@
+<section class="main-container print_area w-full h-fit p-6 flex flex-col gap-8">
+  <div class="header flex items-end justify-between">
+
+    <div class="left flex items-center gap-2">
+      <div class="w-10 h-10 2xl:w-14 2xl:h-14 rounded-full bg-cover bg-center bg-no-repeat"
+        style="background-image: url('{{selectedImageUrl}}'); background-color: {{textColor}};">
+      </div>
+
+      <div class="flex flex-col items-start">
+        <span style="color: {{textColor}}" class="RC-Bold uppercase text-xl">{{firstname}} {{lastname}}</span>
+        <span class="RM-Medium text-[#6F7588] subtxt uppercase text-sm">{{jobTitle}}</span>
+      </div>
+    </div>
+
+    <div class="right flex flex-col items-end">
+      <a href="https://{{website}}" target="_blank" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">{{website}}</a>
+
+      {{#if linkedIn}}
+        <a href="https://{{linkedIn}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">linkedin.com</a>
+      {{/if}}
+
+      {{#if github}}
+        <a href="https://{{github}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">github.com</a>
+      {{/if}}
+
+      <a href="mailto:{{email}}" class="RM-Regular text-[#646C86] underline subtxt text-[10px]">{{email}}</a>
+      <span class="RM-Regular subtxt text-[#646C86] text-[10px]">{{phone}}</span>
+    </div>
+  </div>
+
+  <div class="line flex h-[0.5px] w-full p-[0.5px] opacity-50" style="background-color: {{textColor}};"></div>
+
+  <div class="main-body w-full flex flex-col gap-6">
+
+    {{#if profile}}
+      <div class="profile-section w-full flex flex-col items-start gap-1">
+        <span class="RC-Medium uppercase text-[#6C6C6C] text-sm">Profile</span>
+        <span class="text-[10px] RM-Medium text-black">{{profile}}</span>
+      </div>
+    {{/if}}
+
+    {{#if skills}}
+      <div class="skills-section w-full flex flex-row items-start gap-1">
+        <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Skills</span>
+        <div class="text-[10px] RM-Medium grid grid-cols-3 gap-x-1 gap-y-1 text-black w-[70%]">
+          {{#each skills}}
+            <span>{{this.name}}</span>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if experiences}}
+      <div class="experience-section w-full flex flex-row items-start gap-1">
+        <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Experience</span>
+        <div class="right w-[70%] flex flex-col gap-4">
+          {{#each experiences}}
+            <div class="flex flex-col gap-4">
+              <div class="top-right flex flex-col items-start justify-between">
+                {{#if jobTitle}}
+                  <div class="header flex flex-row-reverse items-center gap-1 flex-shrink-0">
+                    <span style="color: {{../textColor}}" class="RC-Medium text-sm">{{company}}</span>
+                    <span class="line w-[1px] h-3" style="background-color: {{../textColor}};"></span>
+                    <span style="color: {{../textColor}}" class="RC-Medium flex-shrink-0 text-sm">{{jobTitle}}</span>
+                  </div>
+                {{/if}}
+
+                {{#if type}}
+                  <div class="flex flex-row items-center gap-1 flex-shrink-0">
+                    <span class="Roboto-Medium flex-shrink-0 text-[10px] text-[#9FA3AE]">{{type}}</span>
+                    <span class="line w-[1px] h-3 bg-[#9FA3AE]"></span>
+                    {{#if startDate}}
+                      <span class="Roboto-Medium flex-shrink-0 text-[#9FA3AE] text-[10px]">{{startDate}} - {{endDate}}</span>
+                    {{/if}}
+                  </div>
+                {{/if}}
+              </div>
+
+              {{#if points.length}}
+                <ul class="bottom-right text-[#6F7588] list-none relative flex flex-col items-start gap-1">
+                  <span class="Roboto-Regular text-[10px]">During this time, I gained;</span>
+                  {{#each points}}
+                    <li class="Roboto-Regular pl-3 flex-shrink-0 text-[10px] text-left">{{this}}</li>
+                  {{/each}}
+                </ul>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if education}}
+      <div class="education-section w-full flex flex-row items-start gap-1">
+        <span class="RC-Medium uppercase text-[#6C6C6C] text-sm w-[30%]">Education</span>
+        <div class="flex flex-col w-[70%] gap-6">
+          {{#each education}}
+            <div class="right w-full flex flex-col gap-4">
+              <div class="top-right flex flex-col items-start justify-between">
+                <span style="color: {{../textColor}}" class="RC-Medium text-sm">{{institution}}</span>
+                <span class="Roboto-Medium text-[10px] text-[#4E4E4E]">{{certification}}, {{fieldOfStudy}}</span>
+                <span class="Roboto-Medium flex-shrink-0 text-[#9FA3AE] text-[10px]">{{startDate}} - {{endDate}}</span>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+  </div>
+</section>

@@ -16,7 +16,7 @@
             <input formControlName="profileImage" (change)="onFileSelected($event)" class="hidden"
                 type="file" id="input-file" />
             <label for="input-file"
-                class="file-upload w-[-webkit-fill-available] cursor-pointer py-4 px-6 rounded-xl border border-[#EAECF0] flex flex-col bg-white items-center gap-3">
+                class="file-upload w-[-webkit-fill-available] w-[-moz-available] cursor-pointer py-4 px-6 rounded-xl border border-[#EAECF0] flex flex-col bg-white items-center gap-3">
                 <div
                     class="icon w-16 h-16 flex items-center justify-center rounded-full bg-[#F2F4F7] border-[6px] border-[#F9FAFB]">
                     <img class="w-8" src="/assets/icons/upload-cloud.svg" alt="">
@@ -205,7 +205,7 @@
             class="reset-password-btn rounded-lg bg-white border flex-grow border-[#D0D5DD] text-[#344054] py-3 px-6 SF-Medium"
             href="">Cancel</button> -->
 
-            <button (click)="onContinueClick(1)"
+            <button
             class="logout-btn rounded-lg bg-[#EDF6FF] border flex-grow border-[#EDF6FF] text-blue py-3 px-6 SF-Medium"
             href="">Save & Continue</button>
         </div>

@@ -1,8 +1,4 @@
-import {
-  Component,
-  Injector,
-  Input,
-} from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { TemplateOneComponent } from '../../../assets/templates/template-one/template-one.component';
 import { TemplateOnePreviewComponent } from '../../components/preview-templates/template-one-preview/template-one-preview.component';
@@ -14,6 +10,7 @@ import { ColorService } from '../../../services/color.service';
 import { CvEditorComponent } from '../cv-editor/cv-editor.component';
 import { TemplateTwoComponent } from '../../../assets/templates/template-two/template-two.component';
 import { TemplateSelectionService } from '../../../services/template-selection.service';
+import { ResumeDataService } from '../../../services/resume-data.service';
 
 type ColorGroup = {
   colorName: string;
@@ -24,9 +21,7 @@ type ColorGroup = {
   selector: 'app-cv-builder',
   standalone: true,
   imports: [
-    NavbarComponent,
     CommonModule,
-    TemplateOneComponent,
     TemplateOnePreviewComponent,
     TemplateTwoPreviewComponent,
     TemplateThreePreviewComponent,
@@ -37,18 +32,17 @@ type ColorGroup = {
 export class CvBuilderComponent {
   constructor(
     public injector: Injector,
+    private resumeDataService: ResumeDataService,
     private colorService: ColorService,
     private router: Router,
     private templateSelectionService: TemplateSelectionService
-  ) {
-  }
+  ) {}
 
   @Input() formData: any;
   @Input() experienceFormData: any;
   @Input() educationFormData: any;
   @Input() selectedImageUrl!: string;
 
-  
   onTemplateSelected(templateName: string | null) {
     let templateComponent: any;
 
@@ -69,7 +63,6 @@ export class CvBuilderComponent {
 
     this.templateSelectionService.selectTemplate({ templateComponent });
   }
-  
 
   ngOnInit() {
     // this.onTemplateSelected(null);
@@ -78,6 +71,8 @@ export class CvBuilderComponent {
       localStorage.getItem('selectedBackgroundColor') || '#ffffff';
     this.selectedHeaderColor =
       localStorage.getItem('selectedHeaderColor') || '#000000';
+
+    // this.selectColor(this.selectedHeaderColor)
   }
 
   colorGroup: ColorGroup[] = [
@@ -112,7 +107,6 @@ export class CvBuilderComponent {
     });
   }
 
- 
   selectedBackgroundColor: string = '#ffffff'; // Initial background color
   selectedHeaderColor: string = '#000000'; // Initial header color
   showButton: boolean = false;
@@ -129,6 +123,11 @@ export class CvBuilderComponent {
       this.selectedBackgroundColor
     );
     localStorage.setItem('selectedHeaderColor', this.selectedHeaderColor);
+    // Update the service with the new color
+    this.resumeDataService.updateCVData({
+      ...this.resumeDataService.getCurrentCVData(),
+      textColor: this.selectedHeaderColor,
+    });
   }
 
   selectedComponent: string | null = null;
@@ -142,7 +141,6 @@ export class CvBuilderComponent {
       this.router.navigate(['/selected-component', this.selectedComponent]);
     }
   }
-
 
   printCV() {
     window.print();
