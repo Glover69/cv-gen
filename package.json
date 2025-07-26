@@ -23,7 +23,7 @@
     "handlebars": "^4.7.8",
     "html2pdf.js": "^0.9.3",
     "jspdf": "^3.0.0",
-    "ngx-lottie": "^13.0.0",
+    "ngx-lottie": "^11.0.2",
     "rxjs": "~7.8.0",
     "split-type": "^0.3.4",
     "tslib": "^2.3.0",
